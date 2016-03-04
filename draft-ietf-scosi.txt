@@ -1,0 +1,392 @@
+
+
+
+
+tbd                                                          H. Birkholz
+Internet-Draft                                            Fraunhofer SIT
+Intended status: Informational                       J. Fitzgerald-McKay
+Expires: September 5, 2016                                           DOD
+                                                              C. Schmidt
+                                                                   MITRE
+                                                           D. Waltermire
+                                                                    NIST
+                                                          March 04, 2016
+
+
+                 Scalable Concise Software Identifiers
+                        draft-ietf-scosi-latest
+
+Abstract
+
+   This document defines a concise representation of ISO 19770-2/2015
+   Software Identifiers (SWID tags) that is interoperable with the XML
+   schema definition of ISO 19770-2/2015.  Additionally, this document
+   defines application specific profiles (static subsets) of the
+   corresponding vocabulary to enable better scalability in constraint
+   environments.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on September 5, 2016.
+
+Copyright Notice
+
+   Copyright (c) 2016 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+
+
+
+Birkholz, et al.        Expires September 5, 2016               [Page 1]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction (TODO 1st draft, rephrase) . . . . . . . . . . .   2
+   2.  General Concise SWID data definition  . . . . . . . . . . . .   3
+   3.  IANA considerations . . . . . . . . . . . . . . . . . . . . .   6
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
+   5.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   6
+   6.  Change Log  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+   7.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .   6
+   8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   6
+     8.1.  Normative References  . . . . . . . . . . . . . . . . . .   6
+     8.2.  Informative References  . . . . . . . . . . . . . . . . .   6
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   7
+
+1.  Introduction (TODO 1st draft, rephrase)
+
+   SWID tags have several applications; including but not limited to:
+   Software Inventory Management, a part of the Software Asset
+   Management (SAM) process (TODO REF ISO-19770-5:2013), which requires
+   an accurate list of discernible deployed software instances.
+   Vulnerability Assessment, which requires a semantic link between
+   standardized vulnerability descriptions and IT-assets.  Remote
+   Attestation, which benefits from an accompanying list of golden
+   (well-known) measurements about software.
+
+   Software Identifier (SWID) tags are meant to be flexible and able to
+   express virtually any type of software and their associated metadata.
+   Therefore, the complete set of attributes or types of information
+   elements that can be included in a Software Identifier tag often
+   exceeds the scope a single application of SWID.  Unfortunately, this
+   flexibility also limits the capabilities of validation and can
+   require a significant amount of resources to cope with its
+   consequences.
+
+   As a basis, this documents provides a more concise representation of
+   SWID tags in the CBOR [RFC7049] described via the CDDL
+   [I-D.greevenbosch-appsawg-cbor-cddl] - the general Concise SWID data
+   definition - that is interoperable with the XML schema definition of
+   ISO-19770-2:2015 (FIXME someone pls have mercy on this sentence and
+   rephrase it).  Derived from this basis, the document defines Concise
+   SWID profiles, which are subsets of the general Concise SWID data
+
+
+
+Birkholz, et al.        Expires September 5, 2016               [Page 2]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
+   definition structure that represent (in a standardized way) only
+   information elements that are required in specific applications.  The
+   Concise SWID profile defintions can be completely mapped to the XML
+   schema definition of ISO-19770-2:2015 but not vice versa (because
+   they are subsets).
+
+   Additionally, the vocabulary - the names of attributes and
+   information elements that are transported as content - used in the
+   general Concise SWID data defintion - and corresponding Consise SWID
+   profiles - are mapped to a more concise Integer index (FIXME when
+   DONE e.g.  "Evidence" is mapped to 42).  A corresponding mapping
+   table is registered at the IANA (ref IANA reg).
+
+   In essence, Concise SWID defuse some of the amount of data
+   transported by using CBOR, reducing the available vocabulary to
+   application-specific content, and mapping human-readable labels for
+   that content to more concise indices.  Concise SWID also reduce the
+   flexibility of original SWID in order to simplify construction and
+   validation of data transported, while remaining easily translatable
+   into XML SWID format.
+
+2.  General Concise SWID data definition
+
+software-identity = {
+  global-attr,
+  * content: [ entity / evidence / link / software-meta / payload / any-element], ; review for interoperability
+  ? corpus: bool,
+  ? patch: bool,
+  ? media: text,
+  name: text,
+  ? supplemental: bool,
+  tagId: text,
+  ? tag-version: integer,
+  ? version: text,
+  ? version-scheme: NMTOKEN,
+}
+
+NMTOKEN = text            ; .regexp to add some validation?
+NMTOKENS = [* NMTOKEN]
+
+any-attr = text
+any-element = any
+
+date-time = time
+any-uri = text
+
+global-attr = (
+  * (text => any-attr),
+
+
+
+Birkholz, et al.        Expires September 5, 2016               [Page 3]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
+  ? lang: text,
+)
+
+meta-type = (
+  global-attr,
+  * (text => any-attr),
+)
+
+meta-element = [
+  global-attr,
+  * (text => any-attr),
+]
+
+resource-collection = (
+  global-attr,
+  * (directory: directory // file: file // process: process // resource: resource)
+)
+
+file = {
+  filesystem-item,
+  ? size: integer,
+  ? version: text,
+  * (text => any-attr),
+}
+
+filesystem-item = (
+  meta-type,
+  ? key: bool,
+  ? location: text,
+  name: text,
+  ? root: text
+)
+
+directory = {
+  filesystem-item,
+  path-elements: [* (directory / file)],
+}
+
+process = {
+  global-attr,
+  name: text,
+  ? pid: integer,
+}
+
+resource = {
+  global-attr,
+  type: text,
+}
+
+
+
+Birkholz, et al.        Expires September 5, 2016               [Page 4]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
+entity = {
+  global-attr,
+  meta-elements: [* meta-element],
+  name: text,
+  ? regid: any-uri,
+  role: NMTOKENS,
+  ? thumbprint: text,
+}
+
+evidence = {
+  global-attr,
+  resource-collection,
+  ? date: date-time,
+  ? device-id: text,
+}
+
+link = {
+  global-attr,
+  ? artifact: text,
+  href: any-uri,
+  ? media: text,
+  ? ownership: ("shared" / "private" / "abandon"),
+  rel: NMTOKEN,
+  ? type: text,
+  ? use: ("optional" / "required" / "recommended"),
+}
+
+software-meta = {
+  global-attr,
+  ? activation-status: text,
+  ? channel-type: text,
+  ? colloquial-version: text,
+  ? description: text,
+  ? edition: text,
+  ? entitlement-data-required: bool,
+  ? entitlement-key: text,
+  ? generator: text,
+  ? persistent-id: text,
+  ? product: text,
+  ? product-family: text,
+  ? revision: text,
+  ? summary: text,
+  ? unspsc-code: text,
+  ? unspsc-version: text,
+}
+
+payload = {
+  global-attr
+
+
+
+Birkholz, et al.        Expires September 5, 2016               [Page 5]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
+  resource-collection,
+}
+
+
+3.  IANA considerations
+
+   This document includes requests to IANA.
+
+4.  Security Considerations
+
+   TODO There are, validation, denial of service, counterfeit, etc.
+
+5.  Acknowledgements
+
+6.  Change Log
+
+   First version -00
+
+7.  Contributors
+
+8.  References
+
+8.1.  Normative References
+
+   [RFC7049]  Bormann, C. and P. Hoffman, "Concise Binary Object
+              Representation (CBOR)", RFC 7049, DOI 10.17487/RFC7049,
+              October 2013, <http://www.rfc-editor.org/info/rfc7049>.
+
+8.2.  Informative References
+
+   [I-D.greevenbosch-appsawg-cbor-cddl]
+              Vigano, C. and H. Birkholz, "CBOR data definition language
+              (CDDL): a notational convention to express CBOR data
+              structures", draft-greevenbosch-appsawg-cbor-cddl-07 (work
+              in progress), October 2015.
+
+   [RFC3444]  Pras, A. and J. Schoenwaelder, "On the Difference between
+              Information Models and Data Models", RFC 3444, DOI
+              10.17487/RFC3444, January 2003,
+              <http://www.rfc-editor.org/info/rfc3444>.
+
+   [RFC4949]  Shirey, R., "Internet Security Glossary, Version 2", FYI
+              36, RFC 4949, DOI 10.17487/RFC4949, August 2007,
+              <http://www.rfc-editor.org/info/rfc4949>.
+
+
+
+
+
+
+
+Birkholz, et al.        Expires September 5, 2016               [Page 6]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
+Authors' Addresses
+
+   Henk Birkholz
+   Fraunhofer SIT
+   Rheinstrasse 75
+   Darmstadt  64295
+   Germany
+
+   Email: henk.birkholz@sit.fraunhofer.de
+
+
+   Jessica Fitzgerald-McKay
+   Department of Defense
+   9800 Savage Road
+   Ft. Meade, Maryland
+   USA
+
+   Email: jmfitz2@nsa.gov
+
+
+   Charles Schmidt
+   The MITRE Corporation
+   202 Burlington Road
+   Bedford, Maryland  01730
+   USA
+
+   Email: cmschmidt@mitre.org
+
+
+   David Waltermire
+   National Institute of Standards and Technology
+   100 Bureau Drive
+   Gaithersburg, Maryland  20877
+   USA
+
+   Email: david.waltermire@nist.gov
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Birkholz, et al.        Expires September 5, 2016               [Page 7]
