@@ -8,7 +8,6 @@ area: Security
 wg: tbd
 kw: Internet-Draft
 cat: info
-coding: us-ascii
 pi:
   toc: yes
   sortrefs: yes
@@ -229,9 +228,9 @@ The most basic application of Consise SWID tags is a list of every discernable s
 which attributes and complex types are really essential for vulnerability assessment? This list is so long!
 
 * YES: When producing SWID tags, tag creators MUST produce SWID tags that conform to all requirements defined in the ISO/IEC 19770-2:2015 specification.
-* NO: The <SoftwareIdentity> element MUST specify an @xml:lang attribute with a non-blank value to indicate the default human language used for expressing all language-dependent attribute values. (TODO CHECK UTF-8 should take care of the problem?)
-* IDK: Every <Entity> element MUST provide an explicit (i.e., non-default) @regid attribute value. (TODO CHECK, would we need this?)
-* IDK: The <Entity> element containing the @role “tagCreator” MUST provide an explicit (i.e., non-default) @regid attribute value. (TODO CHECK, would we need this?)
+* NO: The \<SoftwareIdentity\> element MUST specify an @xml:lang attribute with a non-blank value to indicate the default human language used for expressing all language-dependent attribute values. (TODO CHECK UTF-8 should take care of the problem?)
+* IDK: Every \<Entity\> element MUST provide an explicit (i.e., non-default) @regid attribute value. (TODO CHECK, would we need this?)
+* IDK: The \<Entity\> element containing the @role “tagCreator” MUST provide an explicit (i.e., non-default) @regid attribute value. (TODO CHECK, would we need this?)
 * IDK: okay... I'll stop now. This is US3 from the NISTIR 8060 requirements v5 spread sheet.
 
 What is really essential to vulnerabulity assessment here? This includes tpyical optional attributes. Or is there a problem to definde a subset. Maybe we have to parse every CVE and look for attributes it needs to be associated by?
