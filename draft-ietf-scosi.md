@@ -55,6 +55,12 @@ author:
 
 normative:
   RFC7049: cbor
+  SWID:
+    title: >
+      Information technology - Software asset management - Part 2: Software identification tag'
+    date: 2015-10-01
+    seriesinfo:
+      ISO/IEC: 19770-2:2015
 
 informative:
   RFC3444:
@@ -63,7 +69,7 @@ informative:
 
 --- abstract 
 
-This document defines a concise representation of ISO 19770-2/2015 Software Identifiers (SWID tags) that is interoperable with the XML schema definition of ISO 19770-2/2015. Additionally, this document defines application specific profiles (static subsets) of the corresponding vocabulary to enable better scalability in constraint environments.
+This document defines a concise representation of ISO 19770-2:2015 Software Identifiers (SWID tags) that is interoperable with the XML schema definition of ISO 19770-2:2015. Additionally, this document defines application specific profiles (static subsets) of the corresponding vocabulary to enable better scalability in constraint environments.
 
 --- middle
 
@@ -76,15 +82,15 @@ SWID tags have several applications; including but not limited to:
 
 Software Identifier tags are meant to be flexible and able to express virtually any type of software and their associated metadata. Therefore, the complete set of attributes or types of information elements that can be included in a Software Identifier tag often exceeds the scope a single application of SWID. Unfortunately, this flexibility also limits the capabilities of validation and can require a significant amount of resources to cope with its consequences.
 
-As a basis, this documents provides a more concise representation of SWID tags in the CBOR {{-cbor}} described via the CDDL {{-cddl}} - the general Concise SWID data definition - that is interoperable with the XML schema definition of ISO-19770-2:2015 (FIXME someone pls have mercy on this sentence and rephrase it). Derived from this basis, the document defines Concise SWID profiles, which are subsets of the general Concise SWID data definition structure that represent (in a standardized way) only information elements that are required in specific applications. The Concise SWID profile defintions can be completely mapped to the XML schema definition of ISO-19770-2:2015 but not vice versa (because they are subsets) and do not include anthing equivalent to the XML any attribute.
+As a basis, this documents provides a more concise representation of SWID tags in the CBOR {{-cbor}} described via the CDDL {{-cddl}} - the general Concise SWID data definition - that is interoperable with the XML schema definition of ISO-19770-2:2015 {{SWID}} (FIXME someone pls have mercy on this sentence and rephrase it). Derived from this basis, the document defines Concise SWID profiles, which are subsets of the general Concise SWID data definition structure that represent (in a standardized way) only information elements that are required in specific applications. The Concise SWID profile definitions can be completely mapped to the XML schema definition of ISO-19770-2:2015 but not vice versa (because they are subsets) and do not include anything equivalent to the XML any attribute.
 
-Additionally, the vocabulary - the names of attributes and information elements that are transported as content - used in the general Concise SWID data defintion - and corresponding Consise SWID profiles - are mapped to a more concise Integer index (FIXME when DONE e.g. "Evidence" is mapped to 42). A corresponding mapping table is registered at the IANA (TODO ref IANA reg).
+Additionally, the vocabulary - the names of attributes and information elements that are transported as content - used in the general Concise SWID data definition - and corresponding Consise SWID profiles - are mapped to a more concise Integer index (FIXME when DONE e.g. "Evidence" is mapped to 42). A corresponding mapping table is registered at the IANA (TODO ref IANA reg).
 
 In essence, Concise SWID defuse some of the amount of data transported by using CBOR, reducing the available vocabulary to application-specific content, and mapping human-readable labels for that content to more concise indices. Concise SWID also reduce the flexibility of original SWID in order to simplify construction and validation of data transported, while remaining easily translatable into XML SWID format.
 
 # General Concise SWID data definition
 
-This is a complete representation of the content of the ISO-19770-2:2015 XML schema definition in CDDL. It is possible to use this definition as a Concise SWID profile that is fully interoperable with the ISO-19770-2:2015 XSD - but it carries the same baggage.
+This is a complete representation of the content of the ISO-19770-2:2015 {{SWID}} XML schema definition in CDDL. It is possible to use this definition as a Concise SWID profile that is fully interoperable with the ISO-19770-2:2015 XSD - but it carries the same baggage.
 
 ~~~ CDDL
 
@@ -217,7 +223,7 @@ payload = {
 
 # Concise SWID profile applications
 
-This section highlights (FIXME a number) of profile applications Consice SWID profiles are defined for. A profile can apply to more than one profile application and a profile application can result in more than one profile.
+This section highlights (FIXME a number) of profile applications Concise SWID profiles are defined for. A profile can apply to more than one profile application and a profile application can result in more than one profile.
 
 ## Software Inventory
 
@@ -233,7 +239,7 @@ which attributes and complex types are really essential for vulnerability assess
 * IDK: The \<Entity> element containing the @role "tagCreator" MUST provide an explicit (i.e., non-default) @regid attribute value. (TODO CHECK, would we need this?)
 * IDK: okay... I'll stop now. This is US3 from the NISTIR 8060 requirements v5 spread sheet.
 
-What is really essential to vulnerabulity assessment here? This includes tpyical optional attributes. Or is there a problem to definde a subset. Maybe we have to parse every CVE and look for attributes it needs to be associated by?
+What is really essential to vulnerability assessment here? This includes typical optional attributes. Or is there a problem to define a subset. Maybe we have to parse every CVE and look for attributes it needs to be associated by?
 
 ## Remote Attestation
 
@@ -241,7 +247,7 @@ insert text here
 
 # Mapping of lables and element names
 
-In order to reduce the general size of a Concise SWID tag, this document defines a Concise SWID Mapping Table that translates lables and member names used in the general Concise SWID data definition to a corresponding integer value. The type tagID in Figure FIXME, for instance, replaces the member composed of lable and type in the map. This procedure moves the type visible definitions more down in the CDD (see Figure FIXME). The encoding can be detected implicitly, as the general Concise SWID data definition uses only strings as labes and member names and the reduced mapping only uses integers (FIXME this probably requires rephrasing?). Therefore, encpdings can be mixed without further indication.
+In order to reduce the general size of a Concise SWID tag, this document defines a Concise SWID Mapping Table that translates labels and member names used in the general Concise SWID data definition to a corresponding integer value. The type tagID in Figure FIXME, for instance, replaces the member composed of label and type in the map. This procedure moves the type visible definitions more down in the CDD (see Figure FIXME). The encoding can be detected implicitly, as the general Concise SWID data definition uses only strings as labels and member names and the reduced mapping only uses integers (FIXME this probably requires rephrasing?). Therefore, encodings can be mixed without further indication.
 
 ~~~ CDDL
 
@@ -310,7 +316,7 @@ software-identityi = {
 
 ## Inventory Item with version and depencies to other Inventory Items (FIXME cbor tag here)
 
-TODO is this already enough for vulnerability assessement? See above
+TODO is this already enough for vulnerability assessment? See above
 
 # COSE signatures for Concise SWID tags
 
