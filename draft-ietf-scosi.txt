@@ -5,12 +5,12 @@
 tbd                                                          H. Birkholz
 Internet-Draft                                            Fraunhofer SIT
 Intended status: Informational                       J. Fitzgerald-McKay
-Expires: September 7, 2016                                           DOD
+Expires: September 9, 2016                                           DOD
                                                               C. Schmidt
                                                                    MITRE
                                                            D. Waltermire
                                                                     NIST
-                                                          March 06, 2016
+                                                          March 08, 2016
 
 
                  Scalable Concise Software Identifiers
@@ -40,7 +40,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 7, 2016.
+   This Internet-Draft will expire on September 9, 2016.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Birkholz, et al.        Expires September 7, 2016               [Page 1]
+Birkholz, et al.        Expires September 9, 2016               [Page 1]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -73,7 +73,7 @@ Table of Contents
      3.1.  Software Inventory  . . . . . . . . . . . . . . . . . . .   6
      3.2.  Vulnerability Assessment  . . . . . . . . . . . . . . . .   6
      3.3.  Remote Attestation  . . . . . . . . . . . . . . . . . . .   7
-   4.  Mapping of lables and element names . . . . . . . . . . . . .   7
+   4.  Mapping of labels and element names . . . . . . . . . . . . .   7
    5.  Concise SWID profiles . . . . . . . . . . . . . . . . . . . .   8
      5.1.  Concise Inventory Item (FIXME cbor tag here)  . . . . . .   8
      5.2.  Minimal Inventory Item (FIXME cbor tag here)  . . . . . .   8
@@ -95,25 +95,30 @@ Table of Contents
 
 1.  Introduction (TODO 1st draft, rephrase)
 
-   SWID tags have several applications; including but not limited to: *
-   Software Inventory Management, a part of the Software Asset
-   Management (SAM) process (TODO REF ISO-19770-5:2013), which requires
-   an accurate list of discernible deployed software instances.  *
-   Vulnerability Assessment, which requires a semantic link between
-   standardized vulnerability descriptions and IT-assets.  * Remote
-   Attestation, which benefits from an accompanying list of golden
-   (well-known) measurements about software.
+   SWID tags have several applications; including but not limited to:
 
-   Software Identifier tags are meant to be flexible and able to express
-   virtually any type of software and their associated metadata.
+   o  Software Inventory Management, a part of the Software Asset
+      Management (SAM) process (TODO REF ISO-19770-5:2013), which
+      requires an accurate list of discernible deployed software
+      instances.
+
+   o  Vulnerability Assessment, which requires a semantic link between
+      standardized vulnerability descriptions and IT-assets.
 
 
 
-Birkholz, et al.        Expires September 7, 2016               [Page 2]
+
+
+Birkholz, et al.        Expires September 9, 2016               [Page 2]
 
 Internet-Draft                    SCOSI                       March 2016
 
 
+   o  Remote Attestation, which benefits from an accompanying list of
+      golden (well-known) measurements about software.
+
+   Software Identifier tags are meant to be flexible and able to express
+   virtually any type of software and their associated metadata.
    Therefore, the complete set of attributes or types of information
    elements that can be included in a Software Identifier tag often
    exceeds the scope a single application of SWID.  Unfortunately, this
@@ -130,7 +135,7 @@ Internet-Draft                    SCOSI                       March 2016
    SWID profiles, which are subsets of the general Concise SWID data
    definition structure that represent (in a standardized way) only
    information elements that are required in specific applications.  The
-   Concise SWID profile defintions can be completely mapped to the XML
+   Concise SWID profile definitions can be completely mapped to the XML
    schema definition of ISO-19770-2:2015 but not vice versa (because
    they are subsets) and do not include anthing equivalent to the XML
    any attribute.
@@ -157,19 +162,19 @@ Internet-Draft                    SCOSI                       March 2016
    this definition as a Concise SWID profile that is fully interoperable
    with the ISO-19770-2:2015 XSD - but it carries the same baggage.
 
+
+
+
+Birkholz, et al.        Expires September 9, 2016               [Page 3]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
 software-identity = {
   global-attr,
   * content: [ entity / evidence / link / software-meta / payload / any-element], ; review for interoperability
   ? corpus: bool,
   ? patch: bool,
-
-
-
-Birkholz, et al.        Expires September 7, 2016               [Page 3]
-
-Internet-Draft                    SCOSI                       March 2016
-
-
   ? media: text,
   name: text,
   ? supplemental: bool,
@@ -213,19 +218,19 @@ file = {
   ? size: integer,
   ? version: text,
   * (text => any-attr),
+
+
+
+Birkholz, et al.        Expires September 9, 2016               [Page 4]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
 }
 
 filesystem-item = (
   meta-type,
   ? key: bool,
-
-
-
-Birkholz, et al.        Expires September 7, 2016               [Page 4]
-
-Internet-Draft                    SCOSI                       March 2016
-
-
   ? location: text,
   name: text,
   ? root: text
@@ -269,18 +274,18 @@ link = {
   href: any-uri,
   ? media: text,
   ? ownership: ("shared" / "private" / "abandon"),
+
+
+
+Birkholz, et al.        Expires September 9, 2016               [Page 5]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
   rel: NMTOKEN,
   ? type: text,
   ? use: ("optional" / "required" / "recommended"),
 }
-
-
-
-
-Birkholz, et al.        Expires September 7, 2016               [Page 5]
-
-Internet-Draft                    SCOSI                       March 2016
-
 
 software-meta = {
   global-attr,
@@ -316,7 +321,7 @@ payload = {
 
 3.1.  Software Inventory
 
-   The most basic application of Consise SWID tags is a list of every
+   The most basic application of Concise SWID tags is a list of every
    discernable software instance installed on an endpoint.  This
    application does require...
 
@@ -325,18 +330,17 @@ payload = {
    which attributes and complex types are really essential for
    vulnerability assessment?  This list is so long!
 
-   o  YES: When producing SWID tags, tag creators MUST produce SWID tags
-      that conform to all requirements defined in the ISO/IEC
-      19770-2:2015 specification.
 
 
 
-
-
-Birkholz, et al.        Expires September 7, 2016               [Page 6]
+Birkholz, et al.        Expires September 9, 2016               [Page 6]
 
 Internet-Draft                    SCOSI                       March 2016
 
+
+   o  YES: When producing SWID tags, tag creators MUST produce SWID tags
+      that conform to all requirements defined in the ISO/IEC
+      19770-2:2015 specification.
 
    o  NO: The <SoftwareIdentity> element MUST specify an @xml:lang
       attribute with a non-blank value to indicate the default human
@@ -363,18 +367,18 @@ Internet-Draft                    SCOSI                       March 2016
 
    insert text here
 
-4.  Mapping of lables and element names
+4.  Mapping of labels and element names
 
    In order to reduce the general size of a Concise SWID tag, this
-   document defines a Concise SWID Mapping Table that translates lables
+   document defines a Concise SWID Mapping Table that translates labels
    and member names used in the general Concise SWID data definition to
    a corresponding integer value.  The type tagID in Figure FIXME, for
-   instance, replaces the member composed of lable and type in the map.
+   instance, replaces the member composed of label and type in the map.
    This procedure moves the type visible definitions more down in the
    CDD (see Figure FIXME).  The encoding can be detected implicitly, as
-   the general Concise SWID data definition uses only strings as labes
+   the general Concise SWID data definition uses only strings as labels
    and member names and the reduced mapping only uses integers (FIXME
-   this probably requires rephrasing?).  Therefore, encpdings can be
+   this probably requires rephrasing?).  Therefore, encodings can be
    mixed without further indication.
 
    software-identity = {tagID}
@@ -385,11 +389,7 @@ Internet-Draft                    SCOSI                       March 2016
 
 
 
-
-
-
-
-Birkholz, et al.        Expires September 7, 2016               [Page 7]
+Birkholz, et al.        Expires September 9, 2016               [Page 7]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -432,7 +432,7 @@ version-scheme (9: NMTOKEN)
 
    The most minimal Concise SWID profile
 
-   software-identityi = {tagId: text}
+   software-identity = {tagId: text}
 
 
 5.2.  Minimal Inventory Item (FIXME cbor tag here)
@@ -445,13 +445,14 @@ version-scheme (9: NMTOKEN)
 
 
 
-Birkholz, et al.        Expires September 7, 2016               [Page 8]
+Birkholz, et al.        Expires September 9, 2016               [Page 8]
 
 Internet-Draft                    SCOSI                       March 2016
 
 
-   software-identityi = {
+   software-identity = {
      tagId: text
+     name: text
    }
 
 
@@ -460,7 +461,8 @@ Internet-Draft                    SCOSI                       March 2016
 5.4.  Inventory Item with version and depencies to other Inventory Items
       (FIXME cbor tag here)
 
-   TODO is this already enough for vulnerability assessement?  See above
+   TODO would this already enough for vulnerability assessement?  See
+   above
 
 6.  COSE signatures for Concise SWID tags
 
@@ -492,19 +494,23 @@ Internet-Draft                    SCOSI                       March 2016
 
 13.2.  Informative References
 
+
+
+
+
+
+
+
+Birkholz, et al.        Expires September 9, 2016               [Page 9]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
    [I-D.greevenbosch-appsawg-cbor-cddl]
               Vigano, C. and H. Birkholz, "CBOR data definition language
               (CDDL): a notational convention to express CBOR data
               structures", draft-greevenbosch-appsawg-cbor-cddl-07 (work
               in progress), October 2015.
-
-
-
-
-Birkholz, et al.        Expires September 7, 2016               [Page 9]
-
-Internet-Draft                    SCOSI                       March 2016
-
 
    [RFC3444]  Pras, A. and J. Schoenwaelder, "On the Difference between
               Information Models and Data Models", RFC 3444, DOI
@@ -544,6 +550,18 @@ Authors' Addresses
    Email: cmschmidt@mitre.org
 
 
+
+
+
+
+
+
+
+Birkholz, et al.        Expires September 9, 2016              [Page 10]
+
+Internet-Draft                    SCOSI                       March 2016
+
+
    David Waltermire
    National Institute of Standards and Technology
    100 Bureau Drive
@@ -557,4 +575,42 @@ Authors' Addresses
 
 
 
-Birkholz, et al.        Expires September 7, 2016              [Page 10]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Birkholz, et al.        Expires September 9, 2016              [Page 11]

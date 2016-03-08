@@ -65,7 +65,7 @@
       </address>
     </author>
 
-    <date year="2016" month="March" day="06"/>
+    <date year="2016" month="March" day="08"/>
 
     <area>Security</area>
     <workgroup>tbd</workgroup>
@@ -88,14 +88,17 @@
 
 <section anchor="introduction-todo-1st-draft-rephrase" title="Introduction (TODO 1st draft, rephrase)">
 
-<t>SWID tags have several applications; including but not limited to: 
-* Software Inventory Management, a part of the Software Asset Management (SAM) process (TODO REF ISO-19770-5:2013), which requires an accurate list of discernible deployed software instances.
-* Vulnerability Assessment, which requires a semantic link between standardized vulnerability descriptions and IT-assets.
-* Remote Attestation, which benefits from an accompanying list of golden (well-known) measurements about software.</t>
+<t>SWID tags have several applications; including but not limited to:</t>
+
+<t><list style="symbols">
+  <t>Software Inventory Management, a part of the Software Asset Management (SAM) process (TODO REF ISO-19770-5:2013), which requires an accurate list of discernible deployed software instances.</t>
+  <t>Vulnerability Assessment, which requires a semantic link between standardized vulnerability descriptions and IT-assets.</t>
+  <t>Remote Attestation, which benefits from an accompanying list of golden (well-known) measurements about software.</t>
+</list></t>
 
 <t>Software Identifier tags are meant to be flexible and able to express virtually any type of software and their associated metadata. Therefore, the complete set of attributes or types of information elements that can be included in a Software Identifier tag often exceeds the scope a single application of SWID. Unfortunately, this flexibility also limits the capabilities of validation and can require a significant amount of resources to cope with its consequences.</t>
 
-<t>As a basis, this documents provides a more concise representation of SWID tags in the CBOR <xref target="RFC7049"/> described via the CDDL <xref target="I-D.greevenbosch-appsawg-cbor-cddl"/> - the general Concise SWID data definition - that is interoperable with the XML schema definition of ISO-19770-2:2015 (FIXME someone pls have mercy on this sentence and rephrase it). Derived from this basis, the document defines Concise SWID profiles, which are subsets of the general Concise SWID data definition structure that represent (in a standardized way) only information elements that are required in specific applications. The Concise SWID profile defintions can be completely mapped to the XML schema definition of ISO-19770-2:2015 but not vice versa (because they are subsets) and do not include anthing equivalent to the XML any attribute.</t>
+<t>As a basis, this documents provides a more concise representation of SWID tags in the CBOR <xref target="RFC7049"/> described via the CDDL <xref target="I-D.greevenbosch-appsawg-cbor-cddl"/> - the general Concise SWID data definition - that is interoperable with the XML schema definition of ISO-19770-2:2015 (FIXME someone pls have mercy on this sentence and rephrase it). Derived from this basis, the document defines Concise SWID profiles, which are subsets of the general Concise SWID data definition structure that represent (in a standardized way) only information elements that are required in specific applications. The Concise SWID profile definitions can be completely mapped to the XML schema definition of ISO-19770-2:2015 but not vice versa (because they are subsets) and do not include anthing equivalent to the XML any attribute.</t>
 
 <t>Additionally, the vocabulary - the names of attributes and information elements that are transported as content - used in the general Concise SWID data defintion - and corresponding Consise SWID profiles - are mapped to a more concise Integer index (FIXME when DONE e.g. “Evidence” is mapped to 42). A corresponding mapping table is registered at the IANA (TODO ref IANA reg).</t>
 
@@ -241,7 +244,7 @@ payload = {
 
 <section anchor="software-inventory" title="Software Inventory">
 
-<t>The most basic application of Consise SWID tags is a list of every discernable software instance installed on an endpoint. This application does require…</t>
+<t>The most basic application of Concise SWID tags is a list of every discernable software instance installed on an endpoint. This application does require…</t>
 
 </section>
 <section anchor="vulnerability-assessment" title="Vulnerability Assessment">
@@ -265,9 +268,9 @@ payload = {
 
 </section>
 </section>
-<section anchor="mapping-of-lables-and-element-names" title="Mapping of lables and element names">
+<section anchor="mapping-of-labels-and-element-names" title="Mapping of labels and element names">
 
-<t>In order to reduce the general size of a Concise SWID tag, this document defines a Concise SWID Mapping Table that translates lables and member names used in the general Concise SWID data definition to a corresponding integer value. The type tagID in Figure FIXME, for instance, replaces the member composed of lable and type in the map. This procedure moves the type visible definitions more down in the CDD (see Figure FIXME). The encoding can be detected implicitly, as the general Concise SWID data definition uses only strings as labes and member names and the reduced mapping only uses integers (FIXME this probably requires rephrasing?). Therefore, encpdings can be mixed without further indication.</t>
+<t>In order to reduce the general size of a Concise SWID tag, this document defines a Concise SWID Mapping Table that translates labels and member names used in the general Concise SWID data definition to a corresponding integer value. The type tagID in Figure FIXME, for instance, replaces the member composed of label and type in the map. This procedure moves the type visible definitions more down in the CDD (see Figure FIXME). The encoding can be detected implicitly, as the general Concise SWID data definition uses only strings as labels and member names and the reduced mapping only uses integers (FIXME this probably requires rephrasing?). Therefore, encodings can be mixed without further indication.</t>
 
 <figure><artwork type="CDDL"><![CDATA[
 software-identity = {tagID}
@@ -314,7 +317,7 @@ version-scheme (9: NMTOKEN)
 <t>The most minimal Concise SWID profile</t>
 
 <figure><artwork type="CDDL"><![CDATA[
-software-identityi = {tagId: text}
+software-identity = {tagId: text}
 
 ]]></artwork></figure>
 
@@ -324,8 +327,9 @@ software-identityi = {tagId: text}
 <t>The most minimal SWID tag.</t>
 
 <figure><artwork type="CDDL"><![CDATA[
-software-identityi = {
+software-identity = {
   tagId: text
+  name: text
 }
 
 ]]></artwork></figure>
@@ -336,7 +340,7 @@ software-identityi = {
 </section>
 <section anchor="inventory-item-with-version-and-depencies-to-other-inventory-items-fixme-cbor-tag-here" title="Inventory Item with version and depencies to other Inventory Items (FIXME cbor tag here)">
 
-<t>TODO is this already enough for vulnerability assessement? See above</t>
+<t>TODO would this already enough for vulnerability assessement? See above</t>
 
 </section>
 </section>
