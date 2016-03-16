@@ -81,7 +81,7 @@ informative:
 
 --- abstract 
 
-This document defines a concise representation of ISO 19770-2:2015 Software Identifiers (SWID tags) that is interoperable with the XML schema definition of ISO 19770-2:2015. Additionally, this document defines application specific profiles--small subsets of SWID content that are derived from SWID tag vocabulary--to enable better scalability when transporting SWID tag related information in constraint environments.
+This document defines a concise representation of ISO 19770-2:2015 Software Identifiers (SWID tags) that is interoperable with the XML schema definition of ISO 19770-2:2015. Additionally, this document defines application specific profiles -- small subsets of SWID content that are derived from SWID tag vocabulary -- to enable better scalability when transporting SWID tag related information in constraint environments.
 
 --- middle
 
@@ -89,7 +89,7 @@ This document defines a concise representation of ISO 19770-2:2015 Software Iden
 
 SWID tags have several applications; including but not limited to:
 
-* Software Inventory Management, a part of the Software Asset Management (SAM) process {{SAM}} , which requires an accurate list of discernible deployed software instances.
+* Software Inventory Management, a part of the Software Asset Management (SAM) process {{SAM}}, which requires an accurate list of discernible deployed software instances.
 
 * Vulnerability Assessment, which requires a semantic link between standardized vulnerability descriptions and IT-assets.
 
@@ -105,7 +105,7 @@ In essence, Concise SWID defuse some of the amount of data transported by using 
 
 # General Concise SWID data definition (original vocabulary)
 
-This is a complete representation of the content of the ISO-19770-2:2015 {{SWID}} XML schema definition in CDDL. It is possible to use this definition as a Concise SWID profile that is fully interoperable with the ISO-19770-2:2015 XSD - but it carries the same baggage. The CamelCase notation used in the XML schema definition is changed to hyphen-separated notation (e.g. ResourceCollection is named resource-collection in the Concise SWID data definition). While the vocabulary is the same, a different notation was chosen to better destinguish the representations via the names of attributes and information elements written in English text.
+This is a complete representation of the content of the ISO-19770-2:2015 {{SWID}} XML schema definition in CDDL. It is possible to use this definition as a Concise SWID profile that is fully interoperable with the ISO-19770-2:2015 XSD -- but it carries the same baggage. The CamelCase notation used in the XML schema definition is changed to hyphen-separated notation (e.g. ResourceCollection is named resource-collection in the Concise SWID data definition). While the vocabulary is the same, a different notation was chosen to better destinguish the representations via the names of attributes and information elements written in English text.
 
 ~~~ CDDL
 
@@ -471,13 +471,13 @@ profile-id = 1
 
 ## Profile Application: Remote Attestation
 
-Remote attestation describes the attempt to determine the integrity and trustworthiness of a computing platform or device without direct access. One way to do so is based on measurements of software components, where the hash values of all started software components are stored in (or extended into) a Trust Anchor implemented as a Hardware Security Module (such as TPM and similar) and reported via a signature over these measurements. In order to assess the trustworthiness of the target device, an attestation verifier needs to know the reference hashes (often referred to as golden measurements) to test the actual measurements against. The aggregated measurements typically come with a corresponding measurement log that includes the paths, names and hashes of the files that are part of the measurement. One way to transport these reference hashes to compare them with measurement logs is the use of specific SWID tag content that includes the reference hashes and--ideally--would be signed by the original manufacturer of the software.
+Remote attestation describes the attempt to determine the integrity and trustworthiness of a computing platform or device without direct access. One way to do so is based on measurements of software components, where the hash values of all started software components are stored in (or extended into) a Trust Anchor implemented as a Hardware Security Module (such as TPM and similar) and reported via a signature over these measurements. In order to assess the trustworthiness of the target device, an attestation verifier needs to know the reference hashes (often referred to as golden measurements) to test the actual measurements against. The aggregated measurements typically come with a corresponding measurement log that includes the paths, names and hashes of the files that are part of the measurement. One way to transport these reference hashes to compare them with measurement logs is the use of specific SWID tag content that includes the reference hashes and -- ideally -- would be signed by the original manufacturer of the software.
 
 ### Reference Hash Profile
 
 In general, SWID tag payload content can list files that may be installed with a software product. The subset of the payload structure used by this Concise SWID profile only includes the attributes that are required to represent a hierarchical file-system structure (i.e. directory and file, including the path-elements root, location and name, by which multiple files can be expressed in the form of a tree). Via this hierarchical structure the files that are included in the measurement log and their corresponding hash values are expressed. Although this could also be done via the evidence content, the payload structure contains the hash values of the files that are supplied by the manufacturer, in contrast to the evidence structure that would include hashes that are created by software running on the endpoint itself. In essence, the set of files and corresponding hashes transported in a Reference Hash profile can be used to compare them with a measurement log.
 
-In a standard SWID tag, the hash value is stored in an Any attribute. In the Reference Hash profile, a file map references a set  of hash-types and corresponding hash-values via a map member (e.g. "SHA256" : hash-value). 
+In a standard SWID tag, the hash value is stored in an Any attribute. In the Reference Hash profile, a file map references a set of hash-types and corresponding hash-values via a map member (e.g. "SHA256" : hash-value). 
 
 ~~~ CDDL
 
