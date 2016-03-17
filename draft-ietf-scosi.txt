@@ -5,12 +5,12 @@
 tbd                                                          H. Birkholz
 Internet-Draft                                            Fraunhofer SIT
 Intended status: Informational                       J. Fitzgerald-McKay
-Expires: September 17, 2016                                          DOD
+Expires: September 18, 2016                                          DOD
                                                               C. Schmidt
                                                                    MITRE
                                                            D. Waltermire
                                                                     NIST
-                                                          March 16, 2016
+                                                          March 17, 2016
 
 
                  Scalable Concise Software Identifiers
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 17, 2016.
+   This Internet-Draft will expire on September 18, 2016.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Birkholz, et al.       Expires September 17, 2016               [Page 1]
+Birkholz, et al.       Expires September 18, 2016               [Page 1]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -80,7 +80,7 @@ Table of Contents
        4.3.1.  Reference Hash Profile  . . . . . . . . . . . . . . .  12
    5.  COSE signatures for Concise SWID tags and Concise SWID
        profiles  . . . . . . . . . . . . . . . . . . . . . . . . . .  13
-   6.  IANA considerations . . . . . . . . . . . . . . . . . . . . .  14
+   6.  IANA considerations . . . . . . . . . . . . . . . . . . . . .  13
    7.  Security Considerations . . . . . . . . . . . . . . . . . . .  14
    8.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  14
    9.  Change Log  . . . . . . . . . . . . . . . . . . . . . . . . .  14
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Birkholz, et al.       Expires September 17, 2016               [Page 2]
+Birkholz, et al.       Expires September 18, 2016               [Page 2]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -165,7 +165,7 @@ Internet-Draft                    SCOSI                       March 2016
 
 
 
-Birkholz, et al.       Expires September 17, 2016               [Page 3]
+Birkholz, et al.       Expires September 18, 2016               [Page 3]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -221,7 +221,7 @@ file = {
 
 
 
-Birkholz, et al.       Expires September 17, 2016               [Page 4]
+Birkholz, et al.       Expires September 18, 2016               [Page 4]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -277,7 +277,7 @@ link = {
 
 
 
-Birkholz, et al.       Expires September 17, 2016               [Page 5]
+Birkholz, et al.       Expires September 18, 2016               [Page 5]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -333,7 +333,7 @@ software-identity = {
 
 
 
-Birkholz, et al.       Expires September 17, 2016               [Page 6]
+Birkholz, et al.       Expires September 18, 2016               [Page 6]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -389,7 +389,7 @@ filesystem-item = (
 
 
 
-Birkholz, et al.       Expires September 17, 2016               [Page 7]
+Birkholz, et al.       Expires September 18, 2016               [Page 7]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -445,7 +445,7 @@ software-meta = {
 
 
 
-Birkholz, et al.       Expires September 17, 2016               [Page 8]
+Birkholz, et al.       Expires September 18, 2016               [Page 8]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -501,7 +501,7 @@ date = (26: date-time)
 
 
 
-Birkholz, et al.       Expires September 17, 2016               [Page 9]
+Birkholz, et al.       Expires September 18, 2016               [Page 9]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -557,7 +557,7 @@ unspsc-version = (47: text)
 
 
 
-Birkholz, et al.       Expires September 17, 2016              [Page 10]
+Birkholz, et al.       Expires September 18, 2016              [Page 10]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -580,9 +580,9 @@ Internet-Draft                    SCOSI                       March 2016
      [ * tag-id ],
    ]
 
-   profile-id = 0
    device-id = text
    tag-id = text
+   profile-id = 0
 
 
 4.2.  Profile Application: Vulnerability Assessment
@@ -613,7 +613,7 @@ Internet-Draft                    SCOSI                       March 2016
 
 
 
-Birkholz, et al.       Expires September 17, 2016              [Page 11]
+Birkholz, et al.       Expires September 18, 2016              [Page 11]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -640,10 +640,10 @@ Internet-Draft                    SCOSI                       March 2016
    components, where the hash values of all started software components
    are stored in (or extended into) a Trust Anchor implemented as a
    Hardware Security Module (such as TPM and similar) and reported via a
-   signature over these measurements.  In order to assess the
-   trustworthiness of the target device, an attestation verifier needs
-   to know the reference hashes (often referred to as golden
-   measurements) to test the actual measurements against.  The
+   signature over these measurements [I-D.birkholz-tuda].  In order to
+   assess the trustworthiness of the target device, an attestation
+   verifier needs to know the reference hashes (often referred to as
+   golden measurements) to test the actual measurements against.  The
    aggregated measurements typically come with a corresponding
    measurement log that includes the paths, names and hashes of the
    files that are part of the measurement.  One way to transport these
@@ -669,7 +669,7 @@ Internet-Draft                    SCOSI                       March 2016
 
 
 
-Birkholz, et al.       Expires September 17, 2016              [Page 12]
+Birkholz, et al.       Expires September 18, 2016              [Page 12]
 
 Internet-Draft                    SCOSI                       March 2016
 
@@ -688,7 +688,10 @@ Internet-Draft                    SCOSI                       March 2016
      directory,
    ]
 
-   filesystem-item = (root, location, name)
+   directory = {
+     filesystem-item,
+     path-elements,
+   }
 
    file = {
      filesystem-item,
@@ -697,12 +700,7 @@ Internet-Draft                    SCOSI                       March 2016
 
    hash-type = text
    hash-value = text
-
-   directory = {
-     filesystem-item,
-     path-elements,
-   }
-
+   filesystem-item = (root, location, name)
    name = (1: text)
    location = (17: text)
    root = (18: text)
@@ -718,23 +716,19 @@ Internet-Draft                    SCOSI                       March 2016
    be included in the general Concise SWID data definition, e.g.
    signature-type ("compat", "cose", etc.).
 
-
-
-
-
-
-
-
-Birkholz, et al.       Expires September 17, 2016              [Page 13]
-
-Internet-Draft                    SCOSI                       March 2016
-
-
 6.  IANA considerations
 
    This document will include requests to IANA: Integer indices for SWID
    content attributes and information elements, and Concise SWID profile
    IDs.
+
+
+
+
+Birkholz, et al.       Expires September 18, 2016              [Page 13]
+
+Internet-Draft                    SCOSI                       March 2016
+
 
 7.  Security Considerations
 
@@ -769,27 +763,28 @@ Internet-Draft                    SCOSI                       March 2016
 
 11.2.  Informative References
 
+   [I-D.birkholz-tuda]
+              Fuchs, A., Birkholz, H., McDonald, I., and C. Bormann,
+              "Time-Based Uni-Directional Attestation", draft-birkholz-
+              tuda-00 (work in progress), October 2015.
+
    [I-D.greevenbosch-appsawg-cbor-cddl]
               Vigano, C. and H. Birkholz, "CBOR data definition language
               (CDDL): a notational convention to express CBOR data
               structures", draft-greevenbosch-appsawg-cbor-cddl-07 (work
               in progress), October 2015.
 
-
-
-
-
-
-
-Birkholz, et al.       Expires September 17, 2016              [Page 14]
-
-Internet-Draft                    SCOSI                       March 2016
-
-
    [RFC3444]  Pras, A. and J. Schoenwaelder, "On the Difference between
               Information Models and Data Models", RFC 3444, DOI
               10.17487/RFC3444, January 2003,
               <http://www.rfc-editor.org/info/rfc3444>.
+
+
+
+Birkholz, et al.       Expires September 18, 2016              [Page 14]
+
+Internet-Draft                    SCOSI                       March 2016
+
 
    [RFC4949]  Shirey, R., "Internet Security Glossary, Version 2", FYI
               36, RFC 4949, DOI 10.17487/RFC4949, August 2007,
@@ -837,4 +832,9 @@ Authors' Addresses
 
 
 
-Birkholz, et al.       Expires September 17, 2016              [Page 15]
+
+
+
+
+
+Birkholz, et al.       Expires September 18, 2016              [Page 15]

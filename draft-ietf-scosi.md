@@ -78,6 +78,7 @@ informative:
   RFC3444:
   RFC4949:
   I-D.greevenbosch-appsawg-cbor-cddl: cddl
+  I-D.birkholz-tuda: tuda
 
 --- abstract 
 
@@ -440,9 +441,9 @@ software-inventory = [
   [ * tag-id ],
 ]
 
-profile-id = 0
 device-id = text
 tag-id = text
+profile-id = 0
 
 ~~~
 
@@ -471,7 +472,7 @@ profile-id = 1
 
 ## Profile Application: Remote Attestation
 
-Remote attestation describes the attempt to determine the integrity and trustworthiness of a computing platform or device without direct access. One way to do so is based on measurements of software components, where the hash values of all started software components are stored in (or extended into) a Trust Anchor implemented as a Hardware Security Module (such as TPM and similar) and reported via a signature over these measurements. In order to assess the trustworthiness of the target device, an attestation verifier needs to know the reference hashes (often referred to as golden measurements) to test the actual measurements against. The aggregated measurements typically come with a corresponding measurement log that includes the paths, names and hashes of the files that are part of the measurement. One way to transport these reference hashes to compare them with measurement logs is the use of specific SWID tag content that includes the reference hashes and -- ideally -- would be signed by the original manufacturer of the software.
+Remote attestation describes the attempt to determine the integrity and trustworthiness of a computing platform or device without direct access. One way to do so is based on measurements of software components, where the hash values of all started software components are stored in (or extended into) a Trust Anchor implemented as a Hardware Security Module (such as TPM and similar) and reported via a signature over these measurements {{-tuda}}. In order to assess the trustworthiness of the target device, an attestation verifier needs to know the reference hashes (often referred to as golden measurements) to test the actual measurements against. The aggregated measurements typically come with a corresponding measurement log that includes the paths, names and hashes of the files that are part of the measurement. One way to transport these reference hashes to compare them with measurement logs is the use of specific SWID tag content that includes the reference hashes and -- ideally -- would be signed by the original manufacturer of the software.
 
 ### Reference Hash Profile
 
@@ -486,7 +487,10 @@ reference-hashes = [
   directory,
 ]
 
-filesystem-item = (root, location, name)
+directory = {
+  filesystem-item,
+  path-elements,
+}
 
 file = {
   filesystem-item,
@@ -495,12 +499,7 @@ file = {
 
 hash-type = text
 hash-value = text
-
-directory = {
-  filesystem-item,
-  path-elements,
-}
-
+filesystem-item = (root, location, name)
 name = (1: text)
 location = (17: text)
 root = (18: text)
