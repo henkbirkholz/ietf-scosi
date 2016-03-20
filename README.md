@@ -1,2 +1,2 @@
 # COSWID
-Concise Software Identieres
+Concise Software Identifiers
