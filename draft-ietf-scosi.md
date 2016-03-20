@@ -1,6 +1,6 @@
 ---
-title: Scalable Concise Software Identifiers
-abbrev: SCOSI
+title: Concise Software Identifiers
+abbrev: COSWID
 docname: draft-ietf-scosi-latest
 stand_alone: true
 ipr: trust200902
@@ -286,13 +286,13 @@ unspsc-version = (47: text)
 
 ~~~
 
-# COSE signatures for Concise SWID tags and Concise SWID profiles
+# COSE signatures for Concise SWID tags
 
 Concise SWID tags require a different signature scheme than the ISO SWID tags represented via the XML schema definition. COSE provides the required mechanism, which will result in additional attributes to be included in the general Concise SWID data definition, e.g. signature-type ("compat", "cose", etc.).
 
 #  IANA considerations
 
-This document will include requests to IANA: Integer indices for SWID content attributes and information elements, and Concise SWID profile IDs.
+This document will include requests to IANA: Integer indices for SWID content attributes and information elements.
 
 #  Security Considerations
 
