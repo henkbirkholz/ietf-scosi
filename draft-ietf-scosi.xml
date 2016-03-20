@@ -364,7 +364,12 @@ reveals information about that endpoint’s attack surface.</t>
 <t>Finally, both the ISO-19770-2:2015 XML schema definition and the
 Concise SWID data definition allow for the construction of “infinite”
 SWID tags or SWID tags that contain malicious content with the intend
-if creating indeterministic states during validation or processing of SWID tags.</t>
+if creating indeterministic states during validation or processing of 
+SWID tags. While software product vendors are unlikely to do this, SWID tags can be created 
+by any party and the SWID tags collected from an endpoint could contain
+a mixture of vendor and non-vendor created tags. For this reason, tools
+that consume SWID tags ought to treat the tag contents as potentially
+malicious and should employ input sanitization on the tags they ingest.</t>
 
 </section>
 <section anchor="acknowledgements" title="Acknowledgements">
