@@ -5,9 +5,9 @@
 SACM Working Group                                           H. Birkholz
 Internet-Draft                                            Fraunhofer SIT
 Intended status: Informational                       J. Fitzgerald-McKay
-Expires: September 21, 2016                                          DOD
+Expires: September 21, 2016                        Department of Defense
                                                               C. Schmidt
-                                                                   MITRE
+                                                   The MITRE Corporation
                                                            D. Waltermire
                                                                     NIST
                                                           March 20, 2016

@@ -27,7 +27,7 @@
       </address>
     </author>
     <author initials="J." surname="Fitzgerald-McKay" fullname="Jessica Fitzgerald-McKay">
-      <organization abbrev="DOD">Department of Defense</organization>
+      <organization>Department of Defense</organization>
       <address>
         <postal>
           <street>9800 Savage Road</street>
@@ -39,7 +39,7 @@
       </address>
     </author>
     <author initials="C." surname="Schmidt" fullname="Charles Schmidt">
-      <organization abbrev="MITRE">The MITRE Corporation</organization>
+      <organization>The MITRE Corporation</organization>
       <address>
         <postal>
           <street>202 Burlington Road</street>
