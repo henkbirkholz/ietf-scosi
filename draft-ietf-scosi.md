@@ -94,7 +94,7 @@ SWID tags have several applications including but not limited to:
 
 * Vulnerability Assessment, which requires a semantic link between standardized vulnerability descriptions and IT-assets.
 
-* Remote Attestation, which requires a link between golden (well-known) measurements and software instances.
+* Remote Attestation, which requires a link between golden (well-known) measurements and software instances {{-tuda}}.
 
 SWID tags, as defined in ISO-19770-2:2015 {{SWID}}, provide a standardized format for a record that identifies and describes a specific release of a software product. Different software products, and even different releases of a particular software product, each have a different SWID tag record associated with them. In addition to defining the format of these records, ISO-19770-2:2015 defines requirements concerning the SWID tag lifecycle. Specifically, when a software product is installed on an endpoint, that product's SWID tag is also installed. Likewise, when the product is uninstalled or replaced, the SWID tag is deleted or replaced, as appropriate. As a result, ISO-19770-2:2015 describes a system wherin there is a correspondence between the set of installed software products on an endpoint, and the presence on that endpoint of the SWID tags corresponding to those products.
 
