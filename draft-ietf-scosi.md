@@ -26,7 +26,6 @@ author:
 - ins: J. Fitzgerald-McKay
   name: Jessica Fitzgerald-McKay
   org: Department of Defense
-  abbrev: DOD
   email: jmfitz2@nsa.gov
   street: 9800 Savage Road
   city: Ft. Meade
@@ -35,7 +34,6 @@ author:
 - ins: C. Schmidt
   name: Charles Schmidt
   org: The MITRE Corporation
-  abbrev: MITRE
   email: cmschmidt@mitre.org
   street: 202 Burlington Road
   city: Bedford

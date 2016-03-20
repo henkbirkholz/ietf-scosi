@@ -1,2 +1,2 @@
-# scosi 
-Scalable Concise Software Identieres
+# COSWID
+Concise Software Identieres
