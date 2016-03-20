@@ -4,7 +4,7 @@
 
 SACM Working Group                                           H. Birkholz
 Internet-Draft                                            Fraunhofer SIT
-Intended status: Informational                       J. Fitzgerald-McKay
+Intended status: Standards Track                     J. Fitzgerald-McKay
 Expires: September 21, 2016                        Department of Defense
                                                               C. Schmidt
                                                    The MITRE Corporation
@@ -73,7 +73,7 @@ Table of Contents
    7.  Change Log  . . . . . . . . . . . . . . . . . . . . . . . . .   9
    8.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .   9
    9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .   9
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
      9.2.  Informative References  . . . . . . . . . . . . . . . . .  10
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
 
@@ -117,7 +117,7 @@ Internet-Draft                   COSWID                       March 2016
    SWID tags are meant to be flexible and able to express a broad set of
    metadata about a software product.  Moreover, there are multiple
    types of SWID tags, each providing different types of information.
-   For example, a "media tag" is used to describe an application's
+   For example, a "corpus tag" is used to describe an application's
    installation image on an installation media, while a "patch tag" is
    meant to describe a patch that modifies some other application.
    While there are very few required fields in SWID tags, there are many
@@ -143,25 +143,25 @@ Internet-Draft                   COSWID                       March 2016
    described earlier can cause a large amount of data to be transported.
    This can be larger than acceptable for constrained devices and
    networks.  Concise SWID tags significantly reduce the amount of data
-   transported of a typical SWID tag by using CBOR and maps human-
-   readable labels of that content to more concise integer labels
-   (indices).  This allows SWID tags to be part of an enterprise
-   security solution for a wider range of endpoints and environments.
+   transported as compared to a typical SWID tag.  This reduction is
+   enable through the use of CBOR, which maps human-readable labels of
+   that content to more concise integer labels (indices).  This allows
+   SWID tags to be part of an enterprise security solution for a wider
+   range of endpoints and environments.
 
 2.  Concise SWID data definition
 
-   This is a representation of the content of the ISO-19770-2:2015
-   [SWID] XML schema definition in CDDL.  This representation includes
-   all SWID tag fields and thus supports all SWID tag use cases.  The
+   The following is a CDDL representation of the ISO-19770-2:2015 [SWID]
+   XML schema definition of SWID tags.  This representation includes all
+   SWID tag fields and thus supports all SWID tag use cases.  The
    CamelCase notation used in the XML schema definition is changed to
    hyphen-separated notation (e.g.  ResourceCollection is named
    resource-collection in the Concise SWID data definition).  The human-
    readable names of members are mapped to integer indices via a block
-   of rules at the bottom of the Concise SWID data definition. 48
+   of rules at the bottom of the Concise SWID data definition.  The 48
    character strings of the SWID vocabulary that would have to be stored
    or transported in full if using the original vocabulary are replaced.
 
-  software-identity = {
 
 
 
@@ -170,6 +170,7 @@ Birkholz, et al.       Expires September 21, 2016               [Page 3]
 Internet-Draft                   COSWID                       March 2016
 
 
+  software-identity = {
     global-attr,
     ? content,
     ? corpus,
@@ -217,7 +218,6 @@ Internet-Draft                   COSWID                       March 2016
     ? size,
     ? version,
     * (text => any-attr),
-  }
 
 
 
@@ -225,6 +225,8 @@ Birkholz, et al.       Expires September 21, 2016               [Page 4]
 
 Internet-Draft                   COSWID                       March 2016
 
+
+  }
 
   filesystem-item = (
     meta-type,
@@ -272,8 +274,6 @@ Internet-Draft                   COSWID                       March 2016
     href,
     ? media,
     ? ownership,
-    rel,
-    ? type,
 
 
 
@@ -282,6 +282,8 @@ Birkholz, et al.       Expires September 21, 2016               [Page 5]
 Internet-Draft                   COSWID                       March 2016
 
 
+    rel,
+    ? type,
     ? use,
   }
 
@@ -328,8 +330,6 @@ Internet-Draft                   COSWID                       March 2016
   process-entry = (13: process)
   resource-entry = (14: resource)
   size = (15: integer)
-  key = (16: bool)
-  location = (17: text)
 
 
 
@@ -338,6 +338,8 @@ Birkholz, et al.       Expires September 21, 2016               [Page 6]
 Internet-Draft                   COSWID                       March 2016
 
 
+  key = (16: bool)
+  location = (17: text)
   root = (18: text)
   path-elements = (19: ([ * (directory / file) ]))
   pid = (20: integer)
@@ -377,15 +379,13 @@ Internet-Draft                   COSWID                       March 2016
    In general, tags are signed by the tag creator (typically, although
    not exclusively, the vendor of the software product that the SWID tag
    identifies).  Cryptographic signatures can make any modification of
-   the tag detectible, which is especially important if the accuracy of
+   the tag detectible, which is especially important if the integrity of
    the tag is important, such as when the tag is providing golden
    measurements for files.
 
    The ISO-19770-2:2015 XML schema uses XML DSIG to support
    cryptographic signatures.  Concise SWID tags require a different
    signature scheme than this.  COSE provides the required mechanism
-   [I-D.ietf-cose-msg], which will be addressed in a future iteration of
-   this draft and most likely result in additional attributes to be
 
 
 
@@ -394,6 +394,8 @@ Birkholz, et al.       Expires September 21, 2016               [Page 7]
 Internet-Draft                   COSWID                       March 2016
 
 
+   [I-D.ietf-cose-msg], which will be addressed in a future iteration of
+   this draft and most likely result in additional attributes to be
    included in the general Concise SWID data definition, e.g. signature-
    type ("compat", "cose", etc.).  Note that, by their natures,
    cryptographic signatures will not remain valid if a SWID tag is
@@ -440,8 +442,6 @@ Internet-Draft                   COSWID                       March 2016
    any collection of SWID tags cannot automatically be assumed to
    represent either a complete or fully accurate representation of the
    software inventory of the endpoint.  However, especially on devices
-   that more strictly control the ability to add or remove applications,
-
 
 
 
@@ -450,6 +450,7 @@ Birkholz, et al.       Expires September 21, 2016               [Page 8]
 Internet-Draft                   COSWID                       March 2016
 
 
+   that more strictly control the ability to add or remove applications,
    SWID tags are an easy way to provide an preliminary understanding of
    that endpoint's software inventory.
 
@@ -476,7 +477,12 @@ Internet-Draft                   COSWID                       March 2016
    Concise SWID data definition allow for the construction of "infinite"
    SWID tags or SWID tags that contain malicious content with the intend
    if creating indeterministic states during validation or processing of
-   SWID tags.
+   SWID tags.  While software product vendors are unlikely to do this,
+   SWID tags can be created by any party and the SWID tags collected
+   from an endpoint could contain a mixture of vendor and non-vendor
+   created tags.  For this reason, tools that consume SWID tags ought to
+   treat the tag contents as potentially malicious and should employ
+   input sanitization on the tags they ingest.
 
 6.  Acknowledgements
 
@@ -488,6 +494,18 @@ Internet-Draft                   COSWID                       March 2016
 
 9.  References
 
+
+
+
+
+
+
+
+Birkholz, et al.       Expires September 21, 2016               [Page 9]
+
+Internet-Draft                   COSWID                       March 2016
+
+
 9.1.  Normative References
 
    [I-D.ietf-cose-msg]
@@ -497,14 +515,6 @@ Internet-Draft                   COSWID                       March 2016
    [RFC7049]  Bormann, C. and P. Hoffman, "Concise Binary Object
               Representation (CBOR)", RFC 7049, DOI 10.17487/RFC7049,
               October 2013, <http://www.rfc-editor.org/info/rfc7049>.
-
-
-
-
-Birkholz, et al.       Expires September 21, 2016               [Page 9]
-
-Internet-Draft                   COSWID                       March 2016
-
 
    [SAM]      "Information technology - Software asset management - Part
               5: Overview and vocabulary", ISO/IEC 19770-5:2013,
@@ -540,16 +550,6 @@ Authors' Addresses
    Email: henk.birkholz@sit.fraunhofer.de
 
 
-   Jessica Fitzgerald-McKay
-   Department of Defense
-   9800 Savage Road
-   Ft. Meade, Maryland
-   USA
-
-   Email: jmfitz2@nsa.gov
-
-
-
 
 
 
@@ -560,6 +560,15 @@ Authors' Addresses
 Birkholz, et al.       Expires September 21, 2016              [Page 10]
 
 Internet-Draft                   COSWID                       March 2016
+
+
+   Jessica Fitzgerald-McKay
+   Department of Defense
+   9800 Savage Road
+   Ft. Meade, Maryland
+   USA
+
+   Email: jmfitz2@nsa.gov
 
 
    Charles Schmidt
@@ -578,15 +587,6 @@ Internet-Draft                   COSWID                       March 2016
    USA
 
    Email: david.waltermire@nist.gov
-
-
-
-
-
-
-
-
-
 
 
 
