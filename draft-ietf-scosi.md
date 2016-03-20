@@ -82,165 +82,31 @@ informative:
 
 --- abstract 
 
-This document defines a concise representation of ISO 19770-2:2015 Software Identifiers (SWID tags) that is interoperable with the XML schema definition of ISO 19770-2:2015. Additionally, this document defines application specific profiles --- small subsets of SWID content that are derived from SWID tag vocabulary --- to enable better scalability when transporting SWID tag related information in constrained environments.
+This document defines a concise representation of ISO 19770-2:2015 Software Identifiers (SWID tags) that is interoperable with the XML schema definition of ISO 19770-2:2015. 
 
 --- middle
 
 # Introduction
 
-SWID (Software Identifier) tags have several applications; including:
+SWID tags have several applications including but not limited to:
 
 * Software Inventory Management, a part of the Software Asset Management (SAM) process {{SAM}}, which requires an accurate list of discernible deployed software instances.
 
-* Vulnerability Assessment, which requires a semantic link between standardized vulnerability descriptions and IT assets.
+* Vulnerability Assessment, which requires a semantic link between standardized vulnerability descriptions and IT-assets.
 
-* Remote Attestation, which benefits from an accompanying list of golden (well-known) measurements about software.
+* Remote Attestation, which requires a link between golden (well-known) measurements and software instances.
 
-SWID tags are meant to be flexible and able to express virtually any type of software and their associated metadata --- even the software's installation packages on installation media. Therefore, the complete set of attributes or types of information elements that can be included in a Software Identifier tag often exceeds the scope a single application of SWID. Unfortunately, this flexibility also limits the capabilities of validation and can require a significant amount of resources to cope with its consequences.
+SWID tags, as defined in ISO-19770-2:2015 {{SWID}}, provide a standardized format for a record that identifies and describes a specific release of a software product. Different software products, and even different releases of a particular software product, each have a different SWID tag record associated with them. In addition to defining the format of these records, ISO-19770-2:2015 defines requirements concerning the SWID tag lifecycle. Specifically, when a software product is installed on an endpoint, that product's SWID tag is also installed. Likewise, when the product is uninstalled or replaced, the SWID tag is deleted or replaced, as appropriate. As a result, ISO-19770-2:2015 describes a system wherin there is a correspondence between the set of installed software products on an endpoint, and the presence on that endpoint of the SWID tags corresponding to those products.
 
-As a basis, this documents provides a more concise representation of SWID tags in the Concise Binary Object Representation (CBOR) {{-cbor}}.  This is described via the CBOR Data Definition Language (CDDL) {{-cddl}}.  The resulting general Concise SWID data definition is interoperable with the XML schema definition of ISO-19770-2:2015 {{SWID}}. The vocabulary, i.e., the names of the attributes used in the general Concise SWID data definition, can additionally be mapped to more concise labels represented as small integers. This mapping is based on the well known attribute names and information element names defined in ISO-19770-2:2015.
+SWID tags are meant to be flexible and able to express a broad set of metadata about a software product. Moreover, there are multiple types of SWID tags, each providing different types of information. For example, a "media tag" is used to describe an application's installation image on an installation media, while a "patch tag" is meant to describe a patch that modifies some other application. Therefore, the complete set of attributes or types of information elements that can be included in a SWID tag often exceeds the scope a single application of SWID.
 
-Derived from this basis, the document defines Concise SWID profiles, which are subsets of the general Concise SWID data definition structure that represent (in a standardized way) only information elements that are required in specific applications. The content of a Concise SWID profile definition can be mapped to the XML schema definition of ISO-19770-2:2015 and uses the same vocabulary but they [[WHAT?]] do not compose SWID tags and sometimes specify content that is not strictly defined in the XML schema definition of SWID tags.
+This document defines a more concise representation of SWID tags in the Concise Binary Object Representation (CBOR) {{-cbor}}.  This is described via the CBOR Data Definition Language (CDDL) {{-cddl}}.  The resulting Concise SWID data definition is interoperable with the XML schema definition of ISO-19770-2:2015 {{SWID}}. The vocabulary, i.e., the CDDL names of the types and members used in the Concise SWID data definition are mapped to more concise labels represented as small integers. The names used in the CDDL and the mapping to the CBOR representation using integer labels is based on the vocabulary of the attribute and element names defined in ISO-19770-2:2015.
 
-SWID tags are not small, and the use of SWID tags in applications can cause a large amount of data to be transported, larger than may be acceptable for constrained devices.
-In essence, Concise SWID defuse some of this bulk by using CBOR and by mapping human-readable labels for that content to more efficient integer labels. In addition, Concise SWID profiles provide application specific subsets of SWID tags that sacrifice some flexibility of the original SWID tags to improve scalability in constrained environments via simpler construction and validation of the data transported, while the use of the same vocabulary keeps these subsets translatable into the XML SWID format.
+In essence, XML SWID tags are not small, and the use of SWID tags in applications can cause a large amount of data to be transported, larger than may be acceptable for constrained devices. Concise SWID tags reduce the amount of data transported by using CBOR and maps human-readable labels of that content to more concise Integer labels (indices).
 
-# General Concise SWID data definition (original vocabulary)
+# Concise SWID data definition
 
-The following CDDL definition is a complete representation of the content of the ISO-19770-2:2015 {{SWID}} XML schema definition. It is possible to use this definition as a Concise SWID profile that is fully interoperable with the ISO-19770-2:2015 XSD --- but it does not reduce the bulk by much. For readability, the CamelCase notation used in the XML schema definition has been changed to hyphen-separated notation (e.g. ResourceCollection is named resource-collection in the Concise SWID data definition). While the vocabulary is the same, a different notation was chosen to [[WHAT?]] better distinguish the representations via the names of attributes and information elements written in English text.
-
-~~~ CDDL
-
-software-identity = {
-  global-attr,
-  content: [* entity / evidence / link / software-meta / payload / any-element], ; review for interoperability
-  ? corpus: bool,
-  ? patch: bool,
-  ? media: text,
-  name: text,
-  ? supplemental: bool,
-  tag-id: text,
-  ? tag-version: integer,
-  ? version: text,
-  ? version-scheme: NMTOKEN,
-}
-
-NMTOKEN = text            ; .regexp to add some validation?
-NMTOKENS = [* NMTOKEN]
-
-any-attr = text
-any-element = any
-
-date-time = time
-any-uri = uri 
-
-global-attr = (
-  * (text => any-attr),
-  ? lang: text,
-)
-
-meta-type = (
-  global-attr,
-  * (text => any-attr),
-)
-
-meta-element = [
-  global-attr,
-  * (text => any-attr),
-]
-
-resource-collection = (
-  global-attr,
-  * (directory: directory // file: file // process: process // resource: resource)
-)
-
-file = {
-  filesystem-item,
-  ? size: integer,
-  ? version: text,
-  * (text => any-attr),
-}
-
-filesystem-item = (
-  meta-type,
-  ? key: bool,
-  ? location: text,
-  name: text,
-  ? root: text
-)
-
-directory = {
-  filesystem-item,
-  path-elements: [* (directory / file)],
-}
-
-process = {
-  global-attr,
-  name: text,
-  ? pid: integer,
-}
-
-resource = {
-  global-attr,
-  type: text,
-}
-
-entity = {
-  global-attr,
-  meta-elements: [* meta-element],
-  name: text,
-  ? reg-id: any-uri,
-  role: NMTOKENS,
-  ? thumbprint: text,
-}
-
-evidence = {
-  global-attr,
-  resource-collection,
-  ? date: date-time,
-  ? device-id: text,
-}
-
-link = {
-  global-attr,
-  ? artifact: text,
-  href: any-uri,
-  ? media: text,
-  ? ownership: ("shared" / "private" / "abandon"),
-  rel: NMTOKEN,
-  ? type: text,
-  ? use: ("optional" / "required" / "recommended"),
-}
-
-software-meta = {
-  global-attr,
-  ? activation-status: text,
-  ? channel-type: text,
-  ? colloquial-version: text,
-  ? description: text,
-  ? edition: text,
-  ? entitlement-data-required: bool,
-  ? entitlement-key: text,
-  ? generator: text,
-  ? persistent-id: text,
-  ? product: text,
-  ? product-family: text,
-  ? revision: text,
-  ? summary: text,
-  ? unspsc-code: text,
-  ? unspsc-version: text,
-}
-
-payload = {
-  global-attr,
-  resource-collection,
-}
-
-~~~
-
-# General Concise SWID data definition (Integer labels)
-
-The variant of the Concise SWID data definition shown in the following uses integers as labels for the members and information elements used in the maps. The CDDL remains human readable and the "mapping" of information element content to the actual Integer labels can be found at the bottom of the definition. Integer labels have been defined for 48 character strings of the SWID vocabulary, which would have to be stored or transported in full if using the original vocabulary.
+This is a complete representation of the content of the ISO-19770-2:2015 {{SID}} XML schema definition in CDDL. This representation includes all SWID tag fields and thus supports all SWID tag use cases. The CamelCase notation used in the XML schema definition is changed to hyphen-separated notation (e.g. ResourceCollection is named resource-collection in the Concise SWID data definition). The human-readable names of array members are mapped to integer indices via a block of rules at the bottom of the Concise SWID data definition. 48 character strings of the SWID vocabulary that would have to be stored or transported in full if using the original vocabulary are replaced.
 
 ~~~ CDDL
 
@@ -417,95 +283,6 @@ revision = (44: text)
 summary = (45: text)
 unspsc-code = (46: text)
 unspsc-version = (47: text)
-
-~~~
-
-# Concise SWID profiles and profile applications
-
-This section highlights three applications of Concise SWID profiles. Concise SWID profiles are very specialized subsets of SWID tag content, potentially including content that cannot normally be validated (if, for example, stored in an Any attribute or any-attr, respectively). A Concise SWID profile is basically stripped of everything that is not required by the application it is constructed for. Therefore, a Concise SWID profile does not compose a valid SWID tag, but it uses the same vocabulary in the CBOR data definition and can be translated into valid (Concise) SWID tags if the required information can be added.
-
-In order to reduce size, some Concise SWID profiles use arrays instead of maps. Content is therefore not always identified via labels but also via sequence and type of array members. Every type of Concise SWID profile is associated with a unique profile-id (an Integer) to simplify parsing and validation.
-
-## Profile Application: Software Inventory
-
-A basic application of SWID tags is to make a software inventory available for other consumer of information. Typically, the complete set of SWID tags does not have to be transported to achieve this. In most cases, it is sufficient to transport a list composed of SWID tag-ids. If a corresponding complete SWID tag is stored in a back-end repository, the detail-rich content can be associated via the tag-id, if required.
-
-### Software Inventory Profile
-
-An empty array indicates that no SWID tags are available. If available, the device-id SHOULD contain an identifier the endpoint, on which the set of software is installed on, can be uniquely identified with (in a given scope or domain, e.g. an administrative domain).
-
-~~~ CDDL
-
-software-inventory = [
-  profile-id,
-  ? device-id,
-  [ * tag-id ],
-]
-
-device-id = text
-tag-id = text
-profile-id = 0
-
-~~~
-
-## Profile Application: Vulnerability Assessment
-
-A vital basis for a vulnerability assessment is the association of Common Vulnerabilities and Exposures identifiers {{CVE}} with specific instances of software installed on an endpoint. Software that can be identified via a SWID tag ("tag-id") can show multiple vulnerabilities ("cve-id"). If a member array of the vulnerability assessment profile only contains a SWID tag and no CVE identifiers, no vulnerabilities could be associated with that software instance. A standard-conform SWID tag can contain multiple instances of entity, evidence, link, (software-)meta, payload, or the any-element. In contrast, in support of the application of vulnerability assessment, the corresponding profile contains one or more CVE identifiers instead, represented by two integers --- the CVE Year Portion and the CVE Sequence Number, from which a unique CVE identifier can be derived.
-
-### Vulnerability Assessment Profile
-
-~~~ CDDL
-
-vulnerability-assessment = [
-  profile-id,
-  ? device-id,
-  * [tag-id, * cve-id]
-]
-
-device-id = text
-tag-id = text
-cve-id = [year, sequence]
-year = integer
-sequence = integer
-profile-id = 1
-
-~~~
-
-## Profile Application: Remote Attestation
-
-Remote attestation describes the attempt to determine the integrity and trustworthiness of a computing platform or device without direct access. One way to do so is based on measurements of software components, where the hash values of all started software components are stored in (or extended into) a Trust Anchor implemented as a Hardware Security Module (such as TPM and similar) and reported via a signature over these measurements {{-tuda}}. In order to assess the trustworthiness of the target device, an attestation verifier needs to know the reference hashes (often referred to as golden measurements) to test the actual measurements against. The aggregated measurements typically come with a corresponding measurement log that includes the paths, names and hashes of the files that are part of the measurement. One way to transport these reference hashes to compare them with measurement logs is the use of specific SWID tag content that includes the reference hashes and --- ideally --- would be signed by the original manufacturer of the software.
-
-### Reference Hash Profile
-
-In general, SWID tag payload content can list files that may be installed with a software product. The subset of the payload structure used by this Concise SWID profile only includes the attributes that are required to represent a hierarchical file-system structure (i.e. directory and file, including the path-elements root, location and name, by which multiple files can be expressed in the form of a tree). Via this hierarchical structure the files that are included in the measurement log and their corresponding hash values are expressed. Although this could also be done via the evidence content, the payload structure contains the hash values of the files that are supplied by the manufacturer, in contrast to the evidence structure that would include hashes that are created by software running on the endpoint itself. In essence, the set of files and corresponding hashes transported in a Reference Hash profile can be used to compare them with a measurement log.
-
-In a standard SWID tag, the hash value is stored in an Any attribute. In the Reference Hash profile, a file map references a set of hash-types and corresponding hash-values via a map member (e.g. "SHA256" : hash-value). 
-
-~~~ CDDL
-
-reference-hashes = [
-  profile-id,
-  directory,
-]
-
-directory = {
-  filesystem-item,
-  path-elements,
-}
-
-file = {
-  filesystem-item,
-  + (hash-type => hash-value),
-}
-
-hash-type = text
-hash-value = text
-filesystem-item = (root, location, name)
-name = (1: text)
-location = (17: text)
-root = (18: text)
-path-elements = (19: ([* (directory / file)]))
-profile-id = 2
 
 ~~~
 
