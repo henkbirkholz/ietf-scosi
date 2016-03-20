@@ -1,11 +1,11 @@
 ---
 title: Concise Software Identifiers
 abbrev: COSWID
-docname: draft-ietf-scosi-latest
+docname: draft-birkholz-sacm-coswid-00
 stand_alone: true
 ipr: trust200902
 area: Security
-wg: tbd
+wg: SACM Working Group
 kw: Internet-Draft
 cat: info
 pi:
@@ -67,16 +67,8 @@ normative:
     date: 2015-10-01
     seriesinfo:
       ISO/IEC: 19770-2:2015
-  CVE:
-    title: >
-      Technical Guidance for Handling the New CVE-ID Syntax
-    date: 2014-12-12
-    seriesinfo:
-      The MITRE Corporation
 
 informative:
-  RFC3444:
-  RFC4949:
   I-D.greevenbosch-appsawg-cbor-cddl: cddl
   I-D.birkholz-tuda: tuda
 
@@ -90,7 +82,7 @@ This document defines a concise representation of ISO 19770-2:2015 Software Iden
 
 SWID tags have several applications including but not limited to:
 
-* Software Inventory Management, a part of the Software Asset Management (SAM) process {{SAM}}, which requires an accurate list of discernible deployed software instances.
+* Software Inventory Management, a part of the Software Asset Management {{SAM}} process, which requires an accurate list of discernible deployed software instances.
 
 * Vulnerability Assessment, which requires a semantic link between standardized vulnerability descriptions and IT-assets.
 
@@ -100,13 +92,13 @@ SWID tags, as defined in ISO-19770-2:2015 {{SWID}}, provide a standardized forma
 
 SWID tags are meant to be flexible and able to express a broad set of metadata about a software product. Moreover, there are multiple types of SWID tags, each providing different types of information. For example, a "media tag" is used to describe an application's installation image on an installation media, while a "patch tag" is meant to describe a patch that modifies some other application. Therefore, the complete set of attributes or types of information elements that can be included in a SWID tag often exceeds the scope a single application of SWID.
 
-This document defines a more concise representation of SWID tags in the Concise Binary Object Representation (CBOR) {{-cbor}}.  This is described via the CBOR Data Definition Language (CDDL) {{-cddl}}.  The resulting Concise SWID data definition is interoperable with the XML schema definition of ISO-19770-2:2015 {{SWID}}. The vocabulary, i.e., the CDDL names of the types and members used in the Concise SWID data definition are mapped to more concise labels represented as small integers. The names used in the CDDL and the mapping to the CBOR representation using integer labels is based on the vocabulary of the attribute and element names defined in ISO-19770-2:2015.
+This document defines a more concise representation of SWID tags in the Concise Binary Object Representation (CBOR) {{-cbor}}.  This is described via the CBOR Data Definition Language (CDDL) {{-cddl}}.  The resulting Concise SWID data definition is interoperable with the XML schema definition of ISO-19770-2:2015 {{SWID}}. The vocabulary, i.e., the CDDL names of the types and members used in the Concise SWID data definition, is mapped to more concise labels represented as small integers. The names used in the CDDL and the mapping to the CBOR representation using integer labels is based on the vocabulary of the attribute and element names defined in ISO-19770-2:2015.
 
-In essence, XML SWID tags are not small, and the use of SWID tags in applications can cause a large amount of data to be transported, larger than may be acceptable for constrained devices. Concise SWID tags reduce the amount of data transported by using CBOR and maps human-readable labels of that content to more concise Integer labels (indices).
+In essence, XML SWID tags are not small, and the use of SWID tags in applications can cause a large amount of data to be transported, larger than may be acceptable for constrained devices. Concise SWID tags reduce the amount of data transported by using CBOR and maps human-readable labels of that content to more concise integer labels (indices).
 
 # Concise SWID data definition
 
-This is a complete representation of the content of the ISO-19770-2:2015 {{SID}} XML schema definition in CDDL. This representation includes all SWID tag fields and thus supports all SWID tag use cases. The CamelCase notation used in the XML schema definition is changed to hyphen-separated notation (e.g. ResourceCollection is named resource-collection in the Concise SWID data definition). The human-readable names of array members are mapped to integer indices via a block of rules at the bottom of the Concise SWID data definition. 48 character strings of the SWID vocabulary that would have to be stored or transported in full if using the original vocabulary are replaced.
+This is a complete representation of the content of the ISO-19770-2:2015 {{SWID}} XML schema definition in CDDL. This representation includes all SWID tag fields and thus supports all SWID tag use cases. The CamelCase notation used in the XML schema definition is changed to hyphen-separated notation (e.g. ResourceCollection is named resource-collection in the Concise SWID data definition). The human-readable names of members are mapped to integer indices via a block of rules at the bottom of the Concise SWID data definition. 48 character strings of the SWID vocabulary that would have to be stored or transported in full if using the original vocabulary are replaced.
 
 ~~~ CDDL
 
@@ -237,7 +229,10 @@ payload = {
 
 tag-id = (0: text)
 name = (1: text)
-content = (2: [* entity / evidence / link / software-meta / payload / any-element])
+content = (
+  2: [ * entity / evidence / link / software-meta /
+       payload / any-element ]
+)
 corpus = (3: bool)
 patch = (4: bool)
 media = (5: text)
@@ -254,10 +249,10 @@ size = (15: integer)
 key = (16: bool)
 location = (17: text)
 root = (18: text)
-path-elements = (19: ([* (directory / file)]))
+path-elements = (19: ([ * (directory / file) ]))
 pid = (20: integer)
 type = (21: text)
-meta-elements = (22: ([* meta-element]))
+meta-elements = (22: ([ * meta-element ]))
 reg-id = (23: any-uri)
 role = (24: NMTOKENS)
 thumbprint = (25: text)
@@ -288,7 +283,7 @@ unspsc-version = (47: text)
 
 # COSE signatures for Concise SWID tags
 
-Concise SWID tags require a different signature scheme than the ISO SWID tags represented via the XML schema definition. COSE provides the required mechanism, which will result in additional attributes to be included in the general Concise SWID data definition, e.g. signature-type ("compat", "cose", etc.).
+Concise SWID tags require a different signature scheme than the ISO SWID tags represented via the XML schema definition. COSE provides the required mechanism [COSE], which will result in additional attributes to be included in the general Concise SWID data definition, e.g. signature-type ("compat", "cose", etc.).
 
 #  IANA considerations
 
