@@ -9,7 +9,7 @@
 <?rfc sortrefs="yes"?>
 <?rfc symrefs="yes"?>
 
-<rfc ipr="trust200902" docName="draft-birkholz-sacm-coswid-00" category="std">
+<rfc ipr="trust200902" docName="draft-birkholz-sacm-coswid-latest" category="std">
 
   <front>
     <title abbrev="COSWID">Concise Software Identifiers</title>
