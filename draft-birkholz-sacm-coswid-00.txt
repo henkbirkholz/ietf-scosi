@@ -101,7 +101,7 @@ Table of Contents
    software product is installed on an endpoint, that product's SWID tag
    is also installed.  Likewise, when the product is uninstalled or
    replaced, the SWID tag is deleted or replaced, as appropriate.  As a
-   result, ISO-19770-2:2015 describes a system wherin there is a
+   result, ISO-19770-2:2015 describes a system wherein there is a
    correspondence between the set of installed software products on an
    endpoint, and the presence on that endpoint of the SWID tags
    corresponding to those products.
@@ -379,7 +379,7 @@ Internet-Draft                   COSWID                       March 2016
    In general, tags are signed by the tag creator (typically, although
    not exclusively, the vendor of the software product that the SWID tag
    identifies).  Cryptographic signatures can make any modification of
-   the tag detectible, which is especially important if the integrity of
+   the tag detectable, which is especially important if the integrity of
    the tag is important, such as when the tag is providing golden
    measurements for files.
 
@@ -476,13 +476,13 @@ Internet-Draft                   COSWID                       March 2016
    Finally, both the ISO-19770-2:2015 XML schema definition and the
    Concise SWID data definition allow for the construction of "infinite"
    SWID tags or SWID tags that contain malicious content with the intend
-   if creating indeterministic states during validation or processing of
-   SWID tags.  While software product vendors are unlikely to do this,
-   SWID tags can be created by any party and the SWID tags collected
-   from an endpoint could contain a mixture of vendor and non-vendor
-   created tags.  For this reason, tools that consume SWID tags ought to
-   treat the tag contents as potentially malicious and should employ
-   input sanitization on the tags they ingest.
+   if creating non-deterministic states during validation or processing
+   of SWID tags.  While software product vendors are unlikely to do
+   this, SWID tags can be created by any party and the SWID tags
+   collected from an endpoint could contain a mixture of vendor and non-
+   vendor created tags.  For this reason, tools that consume SWID tags
+   ought to treat the tag contents as potentially malicious and should
+   employ input sanitizing on the tags they ingest.
 
 6.  Acknowledgements
 
