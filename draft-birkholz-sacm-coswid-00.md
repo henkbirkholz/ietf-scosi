@@ -71,7 +71,21 @@ normative:
 
 informative:
   I-D.greevenbosch-appsawg-cbor-cddl: cddl
-  I-D.birkholz-tuda: tuda
+  I-D-birkholz-tuda:
+    -: tuda
+    title: Time-Based Uni-Directional Attestation
+    date: 2016-03-21
+    seriesinfo:
+      Internet-Draft: draft-birkholz-tuda-01
+    author:
+      - ins: A. Fuchs
+        name: Andreas Fuchs
+      - ins: H. Birkholz
+        name: Henk Birkholz
+      - ins: I. McDonald
+        name: Ira E McDonald
+      - ins: C. Bormann
+        name: Carsten Bormann
 
 --- abstract 
 
