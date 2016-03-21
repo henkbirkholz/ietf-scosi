@@ -1,7 +1,7 @@
 ---
 title: Concise Software Identifiers
 abbrev: COSWID
-docname: draft-birkholz-sacm-coswid-00
+docname: draft-birkholz-sacm-coswid-latest
 stand_alone: true
 ipr: trust200902
 area: Security
