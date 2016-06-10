@@ -65,7 +65,7 @@
       </address>
     </author>
 
-    <date year="2016" month="March" day="21"/>
+    <date year="2016" month="June" day="10"/>
 
     <area>Security</area>
     <workgroup>SACM Working Group</workgroup>
@@ -294,12 +294,42 @@ unspsc-version = (47: text)
 
 <t>SWID tags, as defined in the ISO-19770-2:2015 XML schema, can include cryptographic signatures to protect the integrity of the SWID tag. In general, tags are signed by the tag creator (typically, although not exclusively, the vendor of the software product that the SWID tag identifies). Cryptographic signatures can make any modification of the tag detectable, which is especially important if the integrity of the tag is important, such as when the tag is providing golden measurements for files.</t>
 
-<t>The ISO-19770-2:2015 XML schema uses XML DSIG to support cryptographic signatures. Concise SWID tags require a different signature scheme than this. COSE provides the required mechanism <xref target="I-D.ietf-cose-msg"/>, which will be addressed in a future iteration of this draft and most likely result in additional attributes to be included in the general Concise SWID data definition, e.g. signature-type (“compat”, “cose”, etc.). Note that, by their natures, cryptographic signatures will not remain valid if a SWID tag is translated from one representation to another.</t>
+<t>The ISO-19770-2:2015 XML schema uses XML DSIG to support cryptographic signatures. Concise SWID tags require a different signature scheme than this. COSE (CBOR Encoded Message Syntax) provides the required mechanism <xref target="I-D.ietf-cose-msg"/>. Concise SWID can be wrapped in a COSE Single Signer Data Object (cose-sign1) that contains a single signature. The following CDDL defines a more restrictive subset of header attributes allowed by COSE tailored to suit the requirements of Concise SWID.</t>
+
+<figure><artwork type="CDDL"><![CDATA[
+signed-software-identity = #6.997(COSE-Sign1-coswid) ; Replace 997 with TBD7, see current COSE I-D
+
+unprotected-signed-coswid-header = {
+    1 => int / tstr,            ; algorithm identifier
+    3 => "application/coswid",  ; request for CoAP IANA registry to become an int
+    * label => values,
+}
+
+protected-signed-coswid-header = {
+    4 => bstr,                  ; key identifier
+    * label => values,
+}
+
+COSE-Sign1-coswid = [
+    protected : bstr .cbor protected-signed-coswid-header,
+    unprotected : unprotected-signed-coswid-header,
+    payload : software-identity,
+    signature : bstr,
+]
+
+]]></artwork></figure>
+
+<!--  which will be addressed in a future iteration of this draft and most likely result in additional attributes to be included in the general Concise SWID data definition, e.g. signature-type (“compat”, “cose”, etc.). Note that, by their natures, cryptographic signatures will not remain valid if a SWID tag is translated from one representation to another. -->
 
 </section>
 <section anchor="iana-considerations" title="IANA considerations">
 
-<t>This document will include requests to IANA: Integer indices for SWID content attributes and information elements.</t>
+<t>This document will include requests to IANA:</t>
+
+<t><list style="symbols">
+  <t>Integer indices for SWID content attributes and information elements.</t>
+  <t>Content-Type for CoAP to be used in COSE.</t>
+</list></t>
 
 </section>
 <section anchor="security-considerations" title="Security Considerations">
@@ -444,15 +474,15 @@ if creating non-deterministic states during validation or processing of SWID tag
     <organization />
 </author>
 
-<date month='February' day='7' year='2016' />
+<date month='May' day='12' year='2016' />
 
 <abstract><t>Concise Binary Object Representation (CBOR) is data format designed for small code size and small message size.  There is a need for the ability to have the basic security services defined for this data format.  This document specifies processing for signatures, message authentication codes, and encryption using CBOR.  This document also specifies a representation for cryptographic keys using CBOR.</t></abstract>
 
 </front>
 
-<seriesInfo name='Internet-Draft' value='draft-ietf-cose-msg-10' />
+<seriesInfo name='Internet-Draft' value='draft-ietf-cose-msg-12' />
 <format type='TXT'
-        target='http://www.ietf.org/internet-drafts/draft-ietf-cose-msg-10.txt' />
+        target='http://www.ietf.org/internet-drafts/draft-ietf-cose-msg-12.txt' />
 </reference>
 
 
