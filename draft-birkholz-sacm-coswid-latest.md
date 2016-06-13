@@ -296,6 +296,29 @@ unspsc-version = (47: text)
 
 ~~~
 
+# Encoding hashed for Concise SWID tags
+
+Concise SWID support hashes that are registered at the Named Information Hash Algorithm Registry and the Hash Function Textual Names Registry. A text string used as a value for hash-alg-id referes to the Hash Function Name int the Hash Function Textual Names table. A number used as a value for hash-alg-id refers the ID in the Named Information Hash Algorithm table.
+
+If a hash value (e.g. a file hash) is to be the content of any-attr or any-element, it MUST be encoded as a coswid-hash array:
+
+~~~ CDDL
+
+coswid-hash = [
+  hash-alg-id : int / tstr,
+  hash-value : bstr,
+]
+
+~~~
+
+Example :
+
+~~~ CDDL
+
+file-hash = bstr .cbor coswid-hash
+
+~~~
+
 # COSE signatures for Concise SWID tags
 
 SWID tags, as defined in the ISO-19770-2:2015 XML schema, can include cryptographic signatures to protect the integrity of the SWID tag. In general, tags are signed by the tag creator (typically, although not exclusively, the vendor of the software product that the SWID tag identifies). Cryptographic signatures can make any modification of the tag detectable, which is especially important if the integrity of the tag is important, such as when the tag is providing golden measurements for files.
@@ -304,7 +327,10 @@ The ISO-19770-2:2015 XML schema uses XML DSIG to support cryptographic signature
 
 ~~~ CDDL
 
-signed-software-identity = #6.997(COSE-Sign1-coswid) ; Replace 997 with TBD7, see current COSE I-D
+signed-software-identity = #6.997(COSE-Sign1-coswid) ; see TBS7 in current COSE I-D
+
+label = int / tstr  ; see COSE I-D 1.4.
+values = any        ; see COSE I-D 1.4.
 
 unprotected-signed-coswid-header = {
     1 => int / tstr,            ; algorithm identifier
@@ -319,9 +345,9 @@ protected-signed-coswid-header = {
 
 COSE-Sign1-coswid = [
     protected : bstr .cbor protected-signed-coswid-header,
-    unprotected : unprotected-signed-coswid-header,
-    payload : software-identity,
-    signature : bstr,
+    unprotected: unprotected-signed-coswid-header,
+    payload: bstr .cbor software-identity,
+    signature: bstr,
 ]
 
 ~~~
