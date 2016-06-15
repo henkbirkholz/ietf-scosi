@@ -296,7 +296,7 @@ unspsc-version = (47: text)
 
 ~~~
 
-# Encoding hashed for Concise SWID tags
+# Encoding hashes for Concise SWID tags
 
 Concise SWID support hashes that are registered at the Named Information Hash Algorithm Registry and the Hash Function Textual Names Registry. A text string used as a value for hash-alg-id referes to the Hash Function Name int the Hash Function Textual Names table. A number used as a value for hash-alg-id refers the ID in the Named Information Hash Algorithm table.
 
@@ -305,8 +305,8 @@ If a hash value (e.g. a file hash) is to be the content of any-attr or any-eleme
 ~~~ CDDL
 
 coswid-hash = [
-  hash-alg-id : int / tstr,
-  hash-value : bstr,
+  hash-alg-id: int / tstr,
+  hash-value: bstr,
 ]
 
 ~~~
@@ -344,7 +344,7 @@ protected-signed-coswid-header = {
 }
 
 COSE-Sign1-coswid = [
-    protected : bstr .cbor protected-signed-coswid-header,
+    protected: bstr .cbor protected-signed-coswid-header,
     unprotected: unprotected-signed-coswid-header,
     payload: bstr .cbor software-identity,
     signature: bstr,

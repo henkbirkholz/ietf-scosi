@@ -5,12 +5,12 @@
 SACM Working Group                                           H. Birkholz
 Internet-Draft                                            Fraunhofer SIT
 Intended status: Standards Track                     J. Fitzgerald-McKay
-Expires: December 12, 2016                         Department of Defense
+Expires: December 17, 2016                         Department of Defense
                                                               C. Schmidt
                                                    The MITRE Corporation
                                                            D. Waltermire
                                                                     NIST
-                                                           June 10, 2016
+                                                           June 15, 2016
 
 
                       Concise Software Identifiers
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 12, 2016.
+   This Internet-Draft will expire on December 17, 2016.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Birkholz, et al.        Expires December 12, 2016               [Page 1]
+Birkholz, et al.        Expires December 17, 2016               [Page 1]
 
 Internet-Draft                   COSWID                        June 2016
 
@@ -66,16 +66,17 @@ Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  Concise SWID data definition  . . . . . . . . . . . . . . . .   3
-   3.  COSE signatures for Concise SWID tags . . . . . . . . . . . .   7
-   4.  IANA considerations . . . . . . . . . . . . . . . . . . . . .   8
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  10
-   7.  Change Log  . . . . . . . . . . . . . . . . . . . . . . . . .  10
-   8.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  10
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  10
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  11
+   3.  Encoding hashes for Concise SWID tags . . . . . . . . . . . .   7
+   4.  COSE signatures for Concise SWID tags . . . . . . . . . . . .   8
+   5.  IANA considerations . . . . . . . . . . . . . . . . . . . . .   9
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  11
+   8.  Change Log  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+   9.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  11
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  11
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  11
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
 1.  Introduction
 
@@ -108,8 +109,7 @@ Table of Contents
 
 
 
-
-Birkholz, et al.        Expires December 12, 2016               [Page 2]
+Birkholz, et al.        Expires December 17, 2016               [Page 2]
 
 Internet-Draft                   COSWID                        June 2016
 
@@ -165,7 +165,7 @@ Internet-Draft                   COSWID                        June 2016
 
 
 
-Birkholz, et al.        Expires December 12, 2016               [Page 3]
+Birkholz, et al.        Expires December 17, 2016               [Page 3]
 
 Internet-Draft                   COSWID                        June 2016
 
@@ -221,7 +221,7 @@ Internet-Draft                   COSWID                        June 2016
 
 
 
-Birkholz, et al.        Expires December 12, 2016               [Page 4]
+Birkholz, et al.        Expires December 17, 2016               [Page 4]
 
 Internet-Draft                   COSWID                        June 2016
 
@@ -277,7 +277,7 @@ Internet-Draft                   COSWID                        June 2016
 
 
 
-Birkholz, et al.        Expires December 12, 2016               [Page 5]
+Birkholz, et al.        Expires December 17, 2016               [Page 5]
 
 Internet-Draft                   COSWID                        June 2016
 
@@ -333,7 +333,7 @@ Internet-Draft                   COSWID                        June 2016
 
 
 
-Birkholz, et al.        Expires December 12, 2016               [Page 6]
+Birkholz, et al.        Expires December 17, 2016               [Page 6]
 
 Internet-Draft                   COSWID                        June 2016
 
@@ -372,7 +372,40 @@ Internet-Draft                   COSWID                        June 2016
   unspsc-version = (47: text)
 
 
-3.  COSE signatures for Concise SWID tags
+3.  Encoding hashes for Concise SWID tags
+
+   Concise SWID support hashes that are registered at the Named
+   Information Hash Algorithm Registry and the Hash Function Textual
+   Names Registry.  A text string used as a value for hash-alg-id
+   referes to the Hash Function Name int the Hash Function Textual Names
+   table.  A number used as a value for hash-alg-id refers the ID in the
+   Named Information Hash Algorithm table.
+
+   If a hash value (e.g. a file hash) is to be the content of any-attr
+   or any-element, it MUST be encoded as a coswid-hash array:
+
+
+
+
+
+
+Birkholz, et al.        Expires December 17, 2016               [Page 7]
+
+Internet-Draft                   COSWID                        June 2016
+
+
+   coswid-hash = [
+     hash-alg-id: int / tstr,
+     hash-value: bstr,
+   ]
+
+
+   Example :
+
+   file-hash = bstr .cbor coswid-hash
+
+
+4.  COSE signatures for Concise SWID tags
 
    SWID tags, as defined in the ISO-19770-2:2015 XML schema, can include
    cryptographic signatures to protect the integrity of the SWID tag.
@@ -386,21 +419,41 @@ Internet-Draft                   COSWID                        June 2016
    The ISO-19770-2:2015 XML schema uses XML DSIG to support
    cryptographic signatures.  Concise SWID tags require a different
    signature scheme than this.  COSE (CBOR Encoded Message Syntax)
-
-
-
-Birkholz, et al.        Expires December 12, 2016               [Page 7]
-
-Internet-Draft                   COSWID                        June 2016
-
-
    provides the required mechanism [I-D.ietf-cose-msg].  Concise SWID
    can be wrapped in a COSE Single Signer Data Object (cose-sign1) that
    contains a single signature.  The following CDDL defines a more
    restrictive subset of header attributes allowed by COSE tailored to
    suit the requirements of Concise SWID.
 
-signed-software-identity = #6.997(COSE-Sign1-coswid) ; Replace 997 with TBD7, see current COSE I-D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Birkholz, et al.        Expires December 17, 2016               [Page 8]
+
+Internet-Draft                   COSWID                        June 2016
+
+
+signed-software-identity = #6.997(COSE-Sign1-coswid) ; see TBS7 in current COSE I-D
+
+label = int / tstr  ; see COSE I-D 1.4.
+values = any        ; see COSE I-D 1.4.
 
 unprotected-signed-coswid-header = {
     1 => int / tstr,            ; algorithm identifier
@@ -414,14 +467,14 @@ protected-signed-coswid-header = {
 }
 
 COSE-Sign1-coswid = [
-    protected : bstr .cbor protected-signed-coswid-header,
-    unprotected : unprotected-signed-coswid-header,
-    payload : software-identity,
-    signature : bstr,
+    protected: bstr .cbor protected-signed-coswid-header,
+    unprotected: unprotected-signed-coswid-header,
+    payload: bstr .cbor software-identity,
+    signature: bstr,
 ]
 
 
-4.  IANA considerations
+5.  IANA considerations
 
    This document will include requests to IANA:
 
@@ -430,7 +483,7 @@ COSE-Sign1-coswid = [
 
    o  Content-Type for CoAP to be used in COSE.
 
-5.  Security Considerations
+6.  Security Considerations
 
    SWID tags contain public information about software products and, as
    such, do not need to be protected against disclosure on an endpoint.
@@ -441,19 +494,18 @@ COSE-Sign1-coswid = [
    of SWID tags to address security challenges, and the possible
    disclosure of the results of those applications.
 
-
-
-
-
-Birkholz, et al.        Expires December 12, 2016               [Page 8]
-
-Internet-Draft                   COSWID                        June 2016
-
-
    A signed SWID tag whose signature is intact can be relied upon to be
    unchanged since it was signed.  If the SWID tag was created by the
    software author, this generally means that it has undergone no change
    since the software application with which the tag is associated was
+
+
+
+Birkholz, et al.        Expires December 17, 2016               [Page 9]
+
+Internet-Draft                   COSWID                        June 2016
+
+
    installed.  By implication, this means that the signed tag reflects
    the software author's understanding of the details of that software
    product.  This can be useful assurance when the information in the
@@ -498,18 +550,18 @@ Internet-Draft                   COSWID                        June 2016
    tags and their association with an endpoint reveals information about
    that endpoint's attack surface.
 
-
-
-
-Birkholz, et al.        Expires December 12, 2016               [Page 9]
-
-Internet-Draft                   COSWID                        June 2016
-
-
    Finally, both the ISO-19770-2:2015 XML schema definition and the
    Concise SWID data definition allow for the construction of "infinite"
    SWID tags or SWID tags that contain malicious content with the intend
    if creating non-deterministic states during validation or processing
+
+
+
+Birkholz, et al.        Expires December 17, 2016              [Page 10]
+
+Internet-Draft                   COSWID                        June 2016
+
+
    of SWID tags.  While software product vendors are unlikely to do
    this, SWID tags can be created by any party and the SWID tags
    collected from an endpoint could contain a mixture of vendor and non-
@@ -517,17 +569,17 @@ Internet-Draft                   COSWID                        June 2016
    ought to treat the tag contents as potentially malicious and should
    employ input sanitizing on the tags they ingest.
 
-6.  Acknowledgements
+7.  Acknowledgements
 
-7.  Change Log
+8.  Change Log
 
    First version -00
 
-8.  Contributors
+9.  Contributors
 
-9.  References
+10.  References
 
-9.1.  Normative References
+10.1.  Normative References
 
    [I-D.ietf-cose-msg]
               Schaad, J., "CBOR Encoded Message Syntax", draft-ietf-
@@ -547,7 +599,7 @@ Internet-Draft                   COSWID                        June 2016
 
    [X.1520]   "ITU-T X.1520 (01/2014)", n.d..
 
-9.2.  Informative References
+10.2.  Informative References
 
    [I-D-birkholz-tuda]
               Fuchs, A., Birkholz, H., McDonald, I., and C. Bormann,
@@ -557,7 +609,11 @@ Internet-Draft                   COSWID                        June 2016
 
 
 
-Birkholz, et al.        Expires December 12, 2016              [Page 10]
+
+
+
+
+Birkholz, et al.        Expires December 17, 2016              [Page 11]
 
 Internet-Draft                   COSWID                        June 2016
 
@@ -613,4 +669,4 @@ Authors' Addresses
 
 
 
-Birkholz, et al.        Expires December 12, 2016              [Page 11]
+Birkholz, et al.        Expires December 17, 2016              [Page 12]
