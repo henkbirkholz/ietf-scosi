@@ -442,6 +442,12 @@ if creating non-deterministic states during validation or processing of SWID tag
 
 #  Change Log
 
+Changes from version 00 to version 01:
+
+* Ambiguity between evidence and payload eliminated by introducing explicit members (while still allowing for "empty" swid tags)
+* Added a relatively restrictive COSE envelope using cose_sign1 to define signed coswids (single signer only, at the moment)
+* Added a defintion how to encode hashes that can be stored in the any-member using existing IANA tables to reference hash-algorithms
+
 First version -00
 
 # Contributors
