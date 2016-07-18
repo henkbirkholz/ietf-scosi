@@ -52,9 +52,11 @@ author:
   country: USA
 
 normative:
+  RFC2119:
   RFC7049: cbor
   X.1520:
-    title: "ITU-T X.1520 (01/2014)"
+    title: "Recommendation ITU-T X.1520 (2014), Common vulnerabilities and exposures"
+    date: 2011-04-20
   SAM:
     title: >
       Information technology - Software asset management - Part 5: Overview and vocabulary
@@ -111,6 +113,13 @@ This document defines a more concise representation of SWID tags in the Concise 
 
 Real-world instances of SWID tags can be fairly large, and the communication of SWID tags in use-applications such as those described earlier can cause a large amount of data to be transported. This can be larger than acceptable for constrained devices and networks. Concise SWID tags significantly reduce the amount of data transported as compared to a typical SWID tag. This reduction is enable through the use of CBOR, which maps human-readable labels of that content to more concise integer labels (indices). This allows SWID tags to be part of an enterprise security solution for a wider range of endpoints and environments.
 
+## Requirements notation
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+"OPTIONAL" in this document are to be interpreted as described in RFC
+2119, BCP 14 {{RFC2119}}.
+
 # Concise SWID data definition
 
 The following is a CDDL representation of the ISO-19770-2:2015 {{SWID}} XML schema definition of SWID tags. This representation includes all SWID tag fields and thus supports all SWID tag use cases. The CamelCase notation used in the XML schema definition is changed to hyphen-separated notation (e.g. ResourceCollection is named resource-collection in the Concise SWID data definition). The human-readable names of members are mapped to integer indices via a block of rules at the bottom of the Concise SWID data definition. The 48 character strings of the SWID vocabulary that would have to be stored or transported in full if using the original vocabulary are replaced.
@@ -125,11 +134,10 @@ concise-software-identity = {
   * software-meta-entry,
   * payload-entry,
   * any-element-entry,
-;  ? content,
   ? corpus,
   ? patch,
   ? media,
-  name,
+  swid-name,
   ? supplemental,
   tag-id,
   ? tag-version,
@@ -177,7 +185,7 @@ filesystem-item = (
   meta-type,
   ? key,
   ? location,
-  name,
+  fs-name,
   ? root,
 )
 
@@ -188,7 +196,7 @@ directory = {
 
 process = {
   global-attr,
-  name,
+  process-name,
   ? pid,
 }
 
@@ -200,7 +208,7 @@ resource = {
 entity = {
   global-attr,
   meta-elements,
-  name,
+  entity-name,
   ? reg-id,
   role,
   ? thumbprint,
@@ -249,12 +257,7 @@ payload = {
 }
 
 tag-id = (0: text)
-name = (1: text)
-; ambiguous, replaced
-; content = (
-;  2: [ * entity / evidence / link / software-meta /
-;       payload / any-element ]
-;)
+swid-name = (1: text)
 entity-entry = (2: entity)
 evidence-entry = (3: evidence)
 link-entry = (4: link)
@@ -276,42 +279,45 @@ resource-entry = (19: resource)
 size = (20: integer)
 key = (21: bool)
 location = (22: text)
-root = (23: text)
-path-elements = (24: ([ * (directory / file) ]))
-pid = (25: integer)
-type = (26: text)
-meta-elements = (27: ([ * meta-element ]))
-reg-id = (28: any-uri)
-role = (29: NMTOKENS)
-thumbprint = (30: text)
-date = (31: date-time)
-device-id = (32: text)
-artifact = (33: text)
-href = (34: any-uri)
-ownership = (35: ("shared" / "private" / "abandon"))
-rel = (36: NMTOKEN)
-use = (37: ("optional" / "required" / "recommended"))
-activation-status = (38: text)
-channel-type = (39: text)
-colloquial-version = (40: text)
-description = (41: text)
-edition = (42: text)
-entitlement-data-required = (43: bool)
-entitlement-key = (44: text)
-generator = (45: text)
-persistent-id = (46: text)
-product = (47: text)
-product-family = (48: text)
-revision = (49: text)
-summary = (50: text)
-unspsc-code = (51: text)
-unspsc-version = (52: text)
+fs-name = (23: text)
+root = (24: text)
+path-elements = (25: ([ * (directory / file) ]))
+process-name = (26: text)
+pid = (27: integer)
+type = (28: text)
+meta-elements = (29: ([ * meta-element ]))
+entity-name = (30: text)
+reg-id = (31: any-uri)
+role = (32: NMTOKENS)
+thumbprint = (33: text)
+date = (34: date-time)
+device-id = (35: text)
+artifact = (36: text)
+href = (37: any-uri)
+ownership = (38: ("shared" / "private" / "abandon"))
+rel = (39: NMTOKEN)
+use = (40: ("optional" / "required" / "recommended"))
+activation-status = (41: text)
+channel-type = (42: text)
+colloquial-version = (43: text)
+description = (44: text)
+edition = (45: text)
+entitlement-data-required = (46: bool)
+entitlement-key = (47: text)
+generator = (48: text)
+persistent-id = (49: text)
+product = (50: text)
+product-family = (51: text)
+revision = (52: text)
+summary = (53: text)
+unspsc-code = (54: text)
+unspsc-version = (55: text)
 
 ~~~
 
 # Encoding hashes for Concise SWID tags
 
-Concise SWID support hashes that are registered at the Named Information Hash Algorithm Registry and the Hash Function Textual Names Registry. A text string used as a value for hash-alg-id referes to the Hash Function Name int the Hash Function Textual Names table. A number used as a value for hash-alg-id refers the ID in the Named Information Hash Algorithm table.
+Concise SWID support hashes that are registered at the Named Information Hash Algorithm Registry and the Hash Function Textual Names Registry. A text string used as a value for hash-alg-id referes to the Hash Function Name in the Hash Function Textual Names table. A number used as a value for hash-alg-id refers the ID in the Named Information Hash Algorithm table.
 
 If a hash value (e.g. a file hash) is to be the content of any-attr or any-element, it MUST be encoded as a coswid-hash array:
 
