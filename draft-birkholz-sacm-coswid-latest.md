@@ -178,6 +178,7 @@ file = {
   filesystem-item,
   ? size,
   ? version,
+  ? file-hash,
   * (text => any-attr),
 }
 
@@ -281,7 +282,7 @@ key = (21: bool)
 location = (22: text)
 fs-name = (23: text)
 root = (24: text)
-path-elements = (25: ([ * (directory / file) ]))
+path-elements = (25: ({ * (directory-entry / file-entry) ]))
 process-name = (26: text)
 pid = (27: integer)
 type = (28: text)
@@ -312,6 +313,10 @@ revision = (52: text)
 summary = (53: text)
 unspsc-code = (54: text)
 unspsc-version = (55: text)
+file-hash = (56: [ hash-alg-id: int / tstr,
+                   hash-value: bstr,
+                 ]
+            )
 
 ~~~
 
